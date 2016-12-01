@@ -96,7 +96,7 @@ public class assignment3 {
         String c1base64String = new String(c1Base64);
         
         try {
-            for (int i = -128; i > 127 ; i++) { 
+            for (int i = -128; i < 127 ; i++) { 
                 if (i % 100 == 0) {
                     System.out.println(getAllMessages(serverURL, port, "a"));
                 }
