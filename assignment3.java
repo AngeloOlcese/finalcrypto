@@ -96,7 +96,7 @@ public class assignment3 {
         c2 = decoder.decode(c2);
         
         try {
-            for (int i = 0; i < 256 ; i++) { 
+            for (int i = -128; i < 127 ; i++) { 
                 c2[17] = (byte) i;
                                           
                 String c2base64String = new String(encoder.encode(c2));
