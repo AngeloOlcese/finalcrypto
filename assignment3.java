@@ -72,6 +72,7 @@ public class assignment3 {
 
             String encryptedMessage = getAllMessages(serverURL, port, username);
             while (encryptedMessage == "") {
+                System.out.println(encryptedMessage);
                 encryptedMessage = getAllMessages(serverURL, port, username);
             }
             maul(keys, encryptedMessage, serverURL, port);
@@ -93,14 +94,15 @@ public class assignment3 {
         String c2Base64 = message[1];
         byte[] c1 = message[0].getBytes();
         byte[] c2 = message[1].getBytes();
+        c2 = decoder.decode(c2);
         String c1base64String = new String(c1Base64);
         
         try {
-            for (int i = -128; i < 127 ; i++) { 
+            for (int i = 0; i < 256 ; i++) { 
                 if (i % 100 == 0) {
                     System.out.println(getAllMessages(serverURL, port, "a"));
                 }
-                c2[1] = (byte) i;
+                c2[18] = (byte) i;
                                           
                 
                 String c2base64String = new String(encoder.encode(c2));
