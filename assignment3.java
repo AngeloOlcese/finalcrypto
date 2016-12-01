@@ -96,7 +96,7 @@ public class assignment3 {
         
         try {
             for (int i = 0; i < 1000000000; i ++) {
-                if (i % 10000 == 0) {
+                if (i % 100 == 0) {
                     System.out.println(getAllMessages(serverURL, port, "x"));
                 }
                 ByteBuffer buffer = ByteBuffer.allocate(16);
