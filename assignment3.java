@@ -157,7 +157,7 @@ public class assignment3 {
             os.write(message.getBytes());
         }
         
-        connection.getResponseMessage();
+        System.out.println(connection.getResponseMessage());
     }
     
     private static String encrypt(KeyPair[] keys, String username, String otherUser, String otherKeys, String message) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException {
