@@ -97,7 +97,7 @@ public class assignment3 {
         
         try {
             for (int i = 0; i < 256 ; i++) { 
-                c2[18] = (byte) i;
+                c2[17] = (byte) i;
                                           
                 String c2base64String = new String(encoder.encode(c2));
                 String combined = c1base64String + " " + c2base64String;
