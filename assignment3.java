@@ -98,10 +98,7 @@ public class assignment3 {
         try {
             for (int i = 0; i < 256; i ++) { 
                 if (i % 100 == 0) {
-                    String receipt = getAllMessages(serverURL, port, "a");
-                    if (receipt != "") {
-                        System.out.println(receipt);
-                    }
+                    System.out.println(getAllMessages(serverURL, port, "a"));
                 }
                 c2[1] = (byte) i;
                                           
