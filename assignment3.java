@@ -94,14 +94,14 @@ public class assignment3 {
         byte[] c1 = message[0].getBytes();
         byte[] c2 = message[1].getBytes();
         String c1base64String = new String(c1Base64);
-        byte[] c2NoFirstByte = Arrays.copyOfRange(c2, 16, c2.length);
+        byte[] c2NoFirstByte = Arrays.copyOfRange(c2, 2, c2.length);
         
         try {
-            for (int i = 0; i < 1000000000; i ++) {
+            for (int i = 0; i < 65536; i ++) {
                 if (i % 100 == 0) {
                     System.out.println(getAllMessages(serverURL, port, "x"));
                 }
-                ByteBuffer buffer = ByteBuffer.allocate(16);
+                ByteBuffer buffer = ByteBuffer.allocate(2);
                 buffer.putInt(i);       
                       
                 byte[] c2firstByte = encoder.encode(buffer.array()); 
