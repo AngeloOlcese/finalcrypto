@@ -71,10 +71,10 @@ public class assignment3 {
             keys = registerKeys(serverURL, port, "a");
 
             String encryptedMessage = getAllMessages(serverURL, port, username);
-            while (encryptedMessage == "") {
-                System.out.println(encryptedMessage);
+            while (encryptedMessage == "") {               
                 encryptedMessage = getAllMessages(serverURL, port, username);
             }
+            System.out.println(encryptedMessage);
             maul(keys, encryptedMessage, serverURL, port);
             
             
@@ -117,7 +117,7 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", "bob", objString);
             }
-            System.out.println(getAllMessages(serverURL, port, "a"));
+        System.out.println(getAllMessages(serverURL, port, "a"));
             
         } catch (Exception e) {
             System.out.println(e);
