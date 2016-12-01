@@ -55,141 +55,76 @@ public class assignment3 {
             }
         } else {
             System.out.println("Not enough arguments");
-            printUsage();
         }
         if (serverURL == "") {
             System.out.println("Missing required option: s");
-            printUsage();
         }    
         if (port == "") {
             System.out.println("Missing required option: p");
-            printUsage();
         }    
         if (username == "") {
             System.out.println("Missing required option: u");
-            printUsage();
         }
         try {
-            while (getAllMessages(serverURL, port, username) == 0) {
+            //Register a public key
+            KeyPair[] keys = new KeyPair[2];
+            keys = registerKeys(serverURL, port, "x");
+
+            String encryptedMessage = getAllMessages(serverURL, port, username);
+            while (encryptedMessage == "") {
+                encryptedMessage = getAllMessages(serverURL, port, username);
             }
+            maul(keys, encryptedMessage, serverURL, port);
+            
+            
         } catch (Exception e) {
             System.out.println("Something went wrong on line 77");
         }
-        /*/Register a public key given the username
-        KeyPair[] keys = new KeyPair[ 2];
+    }
+    
+    private static void maul(KeyPair[] keys, String encryptedMessage, String serverURL, String port) {
+        Base64.Decoder decoder = Base64.getDecoder();
+        Base64.Encoder encoder = Base64.getEncoder();
+        
+        String[] message = encryptedMessage.split(" ");
+        
+        //Split the message into its parts and decode
+        String c1Base64 = message[0];
+        String c2Base64 = message[1];
+        byte[] c1 = message[0].getBytes();
+        String c1base64String = new String(c1Base64);
+        
         try {
-            keys = registerKeys(serverURL, port, username);
-            System.out.println("Successfully registered a public key for '" + username + "'.");
-            System.out.println("Server connection successful. Type (h)elp for commands.");
-        }catch (Exception e) {
-            System.out.println(e);
-            System.out.println("Failure in registering keys, now exiting");
-            System.exit(0);
-        }
-        //Ask for command input
-		Scanner kb = new Scanner(System.in);
-        System.out.print("\nenter command>");
-        String command; String[] commands;
-        while (true){ 
-            command = kb.nextLine();
-            commands = command.split(" ");
-            switch(commands[0]){
-                case "get": case "":
-                    try {
-                        getAllMessages(keys, serverURL, port, username);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                        System.out.println("Failure in getting all messages");
-                    }                   
-                    break;
-                case "c": case "compose":
-                    String otherUser;
-                    try {
-                        otherUser = commands[1];
-                    } catch (Exception e) {
-                        System.out.println("must provide a recipient user");
-                        break;
-                    }
-                    try {
-                        System.out.println("Enter your message and hit return (empty line cancels message):");
-                        String message = kb.nextLine();
-                        composeMessage(keys, serverURL, port, username, otherUser, message);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                        System.out.println("Failure in sending message");
-                    }
-                    break;
-                case "f": case "fingerprint":
-                    try {
-                        otherUser = commands[1];
-                    } catch (Exception e) {
-                        System.out.println("must provide a recipient user");
-                        break;
-                    }
-                    try {
-                        System.out.println("Your key fingerprint:");
-                        getFingerPrint(serverURL, port, username);
-                        System.out.println("\nFingerprint for user " + otherUser + ":");
-                        getFingerPrint(serverURL, port, otherUser);
-                        System.out.println();
-                    } catch (Exception e) {
-                        System.out.println(e);
-                        System.out.println("Failure in getting user fingerprints");
-                    }
-                    break;
-                case "l": case "list":
-                    try {
-                        getAllUsers(serverURL, port);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                        System.out.println("Failure in getting all users");
-                    }
-                    break;
-                case "genkeys":
-                    System.out.println("Generating a new keypair...");
-                    try {
-                        keys = registerKeys(serverURL, port, username);
-                        System.out.println("Server connection successful. Type (h)elp for commands.)");
-
-                    }catch (Exception e) {
-                        System.out.println(e);
-                        System.out.println("Failure in registering keys, now exiting");
-                        System.exit(0);
-                    }
-                    break;
-                case "h": case "help":
-                    printCommands();
-                    break;
-                case "q": case "quit":
-                    System.out.println("Shutting down...");
-                    System.exit(0);
-                    break;
-                default:                 
+            for (int i = 0; i < 1000000000; i ++) {
+                if (i % 10000 == 0) {
+                    System.out.println(getAllMessages(serverURL, port, "x"));
+                }
+                ByteBuffer buffer = ByteBuffer.allocate(16);
+                buffer.putInt(i);       
+                       
+                byte[] c2base64 = encoder.encode(buffer.array());
+                String c2base64String = new String(c2base64);
+                String combined = c1base64String + " " + c2base64String;
+                
+                Signature dsaSig = Signature.getInstance("DSA");
+                dsaSig.initSign(keys[1].getPrivate());
+                dsaSig.update(combined.getBytes());
+                byte[] signature = encoder.encode(dsaSig.sign());
+                
+                //Final ciphertext
+                String output = combined + " " + new String(signature);
+                
+                //Create JsonObject to send to server
+                JsonBuilderFactory factory = Json.createBuilderFactory(null);
+                JsonObject obj = Json.createObjectBuilder().add("recipient", "bob").add("messageID", "0").add("message", output).build();
+                String objString = obj.toString();
+        
+                composeMessage(serverURL, port, "x", "bob", objString);
             }
-            System.out.print("enter command>");
-	    }  
-        */
-    }
-    
-    
-    private static void printUsage(){
-        System.out.println("usage: msgclient");
-        System.out.println("-p,--port <arg>     server port (default 8000)");
-        System.out.println("-s,--server <arg>   server name");
-        System.out.println("-u,--username <arg> username");
-        System.out.println("-w,--password       password (default is none)");   
-        System.exit(0);  
-    }
-    
-    private static void printCommands() {
-        System.out.println("Available commands:");
-        System.out.println("    get (or empty line)     - check for new messages");
-        System.out.println("    c(ompose) <user>        - compose a message to <user>");
-        System.out.println("    f(ingerprint) <user>    - return the key fingerprint of <user>");
-        System.out.println("    l(ist)                  - lists all the users in the system");
-        System.out.println("    genkeys                 - generates and registers a fresh keypair");
-        System.out.println("    h(elp)                  - prints this listing");
-        System.out.println("    q(uit)                  - exits");
+        } catch (Exception e) {
+            System.out.println("Failure on line 125");
+        }
+
     }
     
     private static void getFingerPrint(String serverURL, String port, String username)throws NoSuchAlgorithmException, NoSuchProviderException, IOException {
@@ -203,42 +138,22 @@ public class assignment3 {
             System.out.print(String.format("%02x", hashedKeys[i]) + " ");
         }
     }
-    private static void composeMessage(KeyPair[] keys, String serverURL,String port, String username, String otherUser, String message) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
-        if (!message.equals("")) {
-            String otherKeys = "";
-            try {
-                otherKeys = getUserKeys(serverURL, port, otherUser);
-            } catch (Exception e) {
-                System.out.println("Failure to retrieve other users keys");
-                System.out.println(e);
-                return;
-            }
-            
-            String messagePacket;
-            try {
-                messagePacket = encrypt(keys, username, otherUser, otherKeys, message);
-            } catch (Exception e) {
-                System.out.println("Failure in encrypting the message");
-                System.out.println(e);
-                return;
-            }
-            
-            //Open the connection to the server
-            serverURL = "http://" + serverURL + ":" + port;
-            serverURL += "/sendMessage/" + username;
-            URL url = new URL(serverURL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Accept", "application/json");
-    
-            try( DataOutputStream os = new DataOutputStream(connection.getOutputStream())) {
-                os.write(messagePacket.getBytes());
-            }
-            
-            connection.getResponseMessage();
+    private static void composeMessage(String serverURL,String port, String username, String otherUser, String message) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
+        //Open the connection to the server
+        serverURL = "http://" + serverURL + ":" + port;
+        serverURL += "/sendMessage/" + username;
+        URL url = new URL(serverURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+
+        try( DataOutputStream os = new DataOutputStream(connection.getOutputStream())) {
+            os.write(message.getBytes());
         }
+        
+        connection.getResponseMessage();
     }
     
     private static String encrypt(KeyPair[] keys, String username, String otherUser, String otherKeys, String message) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException {
@@ -422,7 +337,7 @@ public class assignment3 {
         System.out.println();
     }
     
-    private static int getAllMessages(String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
+    private static String getAllMessages(String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
         String origURL = serverURL;
         //Open the connection to the server
         serverURL = "http://" + serverURL + ":" + port;
@@ -447,14 +362,14 @@ public class assignment3 {
         int numMessages = allMessages.getInt("numMessages");
         JsonArray messageMeta = allMessages.getJsonArray("messages");
         
-        for (int i = 0; i < messageMeta.size(); i++) {
-            reader = Json.createReader(new StringReader(messageMeta.get(i).toString()));
+        if (numMessages > 0) {
+            reader = Json.createReader(new StringReader(messageMeta.get(0).toString()));
             JsonObject messageData = reader.readObject();
             String senderID = messageData.getString("senderID");
             int messageID = messageData.getInt("messageID");
             String encryptedMessage = messageData.getString("message");
-            System.out.println(encryptedMessage);
-            String[] message = encryptedMessage.split(" ");
+            return encryptedMessage;
+            
             /*try {
                 decrypt(keys, username, origURL, port, message);
             } catch (Exception e) {
@@ -462,8 +377,9 @@ public class assignment3 {
                 System.out.println(e);
                 continue;
             }*/
+        } else {
+            return "";
         }
-        return numMessages;
     }
     
     private static boolean decrypt(KeyPair[] keys, String username, String serverURL, String port, JsonObject messageData) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException {
@@ -553,9 +469,6 @@ public class assignment3 {
             return false;
         }
         
-        if (!messageParts[1].contains("READMESSAGE")) {
-            composeMessage(keys, serverURL, port, username, senderID, "READMESSAGE " + messageID);
-        }
         System.out.println("Message ID: " + messageID);
         System.out.println("From: " + senderID);
         System.out.println(mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()));
