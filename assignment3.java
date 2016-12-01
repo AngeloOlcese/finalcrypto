@@ -126,7 +126,7 @@ public class assignment3 {
                 composeMessage(serverURL, port, "x", "bob", objString);
             }
         } catch (Exception e) {
-            System.out.println("Failure on line 125");
+            System.out.println(e);
         }
 
     }
