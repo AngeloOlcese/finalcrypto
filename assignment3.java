@@ -92,7 +92,9 @@ public class assignment3 {
         String c1Base64 = message[0];
         String c2Base64 = message[1];
         byte[] c1 = message[0].getBytes();
+        byte[] c2 = message[1].getBytes();
         String c1base64String = new String(c1Base64);
+        byte[] c2NoFirstByte = Arrays.copyOfRange(c2, 16, c2.length);
         
         try {
             for (int i = 0; i < 1000000000; i ++) {
@@ -101,9 +103,11 @@ public class assignment3 {
                 }
                 ByteBuffer buffer = ByteBuffer.allocate(16);
                 buffer.putInt(i);       
-                       
-                byte[] c2base64 = encoder.encode(buffer.array());
-                String c2base64String = new String(c2base64);
+                      
+                byte[] c2firstByte = encoder.encode(buffer.array()); 
+                byte[] c2New = concat(c2firstByte, c2NoFirstByte);
+                
+                String c2base64String = new String(c2New);
                 String combined = c1base64String + " " + c2base64String;
                 
                 Signature dsaSig = Signature.getInstance("DSA");
