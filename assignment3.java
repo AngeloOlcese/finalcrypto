@@ -117,7 +117,7 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", "bob", objString);
             }
-            getAllMessages(serverURL, port, "a");
+            System.out.println(getAllMessages(serverURL, port, "a"));
             
         } catch (Exception e) {
             System.out.println(e);
