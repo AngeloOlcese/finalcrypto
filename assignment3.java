@@ -68,7 +68,7 @@ public class assignment3 {
         try {
             //Register a public key
             KeyPair[] keys = new KeyPair[2];
-            keys = registerKeys(serverURL, port, "x");
+            keys = registerKeys(serverURL, port, "a");
 
             String encryptedMessage = getAllMessages(serverURL, port, username);
             while (encryptedMessage == "") {
@@ -96,37 +96,35 @@ public class assignment3 {
         String c1base64String = new String(c1Base64);
         
         try {
-            for (int i = 0; i < 256; i ++) {
-                for (int j = 0; j < 256; j++) {  
-                    if (i % 100 == 0) {
-                        String receipt = getAllMessages(serverURL, port, "x");
-                        if (receipt != "") {
-                            System.out.println(receipt);
-                        }
+            for (int i = 0; i < 256; i ++) { 
+                if (i % 100 == 0) {
+                    String receipt = getAllMessages(serverURL, port, "a");
+                    if (receipt != "") {
+                        System.out.println(receipt);
                     }
-                    c2[0] = (byte) i;
-                    c2[1] = (byte) j;
-                                              
-                    
-                    String c2base64String = new String(encoder.encode(c2));
-                    String combined = c1base64String + " " + c2base64String;
-                    
-                    Signature dsaSig = Signature.getInstance("DSA");
-                    dsaSig.initSign(keys[1].getPrivate());
-                    dsaSig.update(combined.getBytes());
-                    byte[] signature = encoder.encode(dsaSig.sign());
-                    
-                    //Final ciphertext
-                    String output = combined + " " + new String(signature);
-                    
-                    //Create JsonObject to send to server
-                    JsonBuilderFactory factory = Json.createBuilderFactory(null);
-                    JsonObject obj = Json.createObjectBuilder().add("recipient", "bob").add("messageID", "0").add("message", output).build();
-                    String objString = obj.toString();
-            
-                    composeMessage(serverURL, port, "x", "bob", objString);
                 }
+                c2[1] = (byte) i;
+                                          
+                
+                String c2base64String = new String(encoder.encode(c2));
+                String combined = c1base64String + " " + c2base64String;
+                
+                Signature dsaSig = Signature.getInstance("DSA");
+                dsaSig.initSign(keys[1].getPrivate());
+                dsaSig.update(combined.getBytes());
+                byte[] signature = encoder.encode(dsaSig.sign());
+                
+                //Final ciphertext
+                String output = combined + " " + new String(signature);
+                
+                //Create JsonObject to send to server
+                JsonBuilderFactory factory = Json.createBuilderFactory(null);
+                JsonObject obj = Json.createObjectBuilder().add("recipient", "bob").add("messageID", "0").add("message", output).build();
+                String objString = obj.toString();
+        
+                composeMessage(serverURL, port, "a", "bob", objString);
             }
+            
         } catch (Exception e) {
             System.out.println(e);
         }
