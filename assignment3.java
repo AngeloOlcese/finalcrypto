@@ -90,21 +90,15 @@ public class assignment3 {
         String[] message = encryptedMessage.split(" ");
         
         //Split the message into its parts and decode
-        String c1Base64 = message[0];
+        String c1base64String = message[0];
         String c2Base64 = message[1];
-        byte[] c1 = message[0].getBytes();
         byte[] c2 = message[1].getBytes();
         c2 = decoder.decode(c2);
-        String c1base64String = new String(c1Base64);
         
         try {
             for (int i = 0; i < 256 ; i++) { 
-                if (i % 100 == 0) {
-                    System.out.println(getAllMessages(serverURL, port, "a"));
-                }
                 c2[18] = (byte) i;
                                           
-                
                 String c2base64String = new String(encoder.encode(c2));
                 String combined = c1base64String + " " + c2base64String;
                 
@@ -123,6 +117,7 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", "bob", objString);
             }
+            getAllMessages(serverURL, port, "a");
             
         } catch (Exception e) {
             System.out.println(e);
