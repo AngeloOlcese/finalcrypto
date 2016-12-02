@@ -74,7 +74,6 @@ public class assignment3 {
             while (encryptedMessage == null) {               
                 encryptedMessage = getAllMessages(serverURL, port, username);
             }
-            System.out.println(encryptedMessage);
             maul(keys, encryptedMessage, serverURL, port, username);
             
             
@@ -111,7 +110,8 @@ public class assignment3 {
                 
                 //Create JsonObject to send to server
                 JsonBuilderFactory factory = Json.createBuilderFactory(null);
-                JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", "0").add("message", output).build();
+                String num = Integer.toString(i);
+                JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
                 String objString = obj.toString();
         
                 composeMessage(serverURL, port, "a", username, objString);
