@@ -70,9 +70,9 @@ public class assignment3 {
             KeyPair[] keys = new KeyPair[2];
             keys = registerKeys(serverURL, port, "a");
 
-            JsonObject encryptedMessage = getAllMessages(serverURL, port, username);
+            JsonObject encryptedMessage = getAllMessages(keys, serverURL, port, username);
             while (encryptedMessage == null) {               
-                encryptedMessage = getAllMessages(serverURL, port, username);
+                encryptedMessage = getAllMessages(keys, serverURL, port, username);
             }
             maul(keys, encryptedMessage, serverURL, port, username);
             
@@ -116,9 +116,7 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", username, objString);
             }
-        JsonObject m = getAllMessages(serverURL, port, "a");
-        System.out.println(m);
-        decrypt(keys, "a", serverURL, port, m);
+        JsonObject m = getAllMessages(keys, serverURL, port, "a");
             
         } catch (Exception e) {
             System.out.println(e);
@@ -336,7 +334,7 @@ public class assignment3 {
         System.out.println();
     }
     
-    private static JsonObject getAllMessages(String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
+    private static JsonObject getAllMessages(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
         String origURL = serverURL;
         //Open the connection to the server
         serverURL = "http://" + serverURL + ":" + port;
@@ -364,14 +362,14 @@ public class assignment3 {
         if (numMessages > 0) {
             reader = Json.createReader(new StringReader(messageMeta.get(0).toString()));
             JsonObject messageData = reader.readObject();
-            return messageData;            
-            /*try {
-                decrypt(keys, username, origURL, port, message);
+                      
+            try {
+                decrypt(keys, "a", origURL, port, messageData);
             } catch (Exception e) {
                 System.out.println("Exception while attempting to decrypt message");
                 System.out.println(e);
-                continue;
-            }*/
+            }
+            return messageData;  
         } else {
             return null;
         }
