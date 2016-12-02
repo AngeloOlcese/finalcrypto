@@ -405,13 +405,14 @@ public class assignment3 {
         dsaSig.initVerify(otherDSAPubKey);
         dsaSig.update((c1Base64 + " " + c2Base64).getBytes());
         boolean verified = dsaSig.verify(sigma);
+        System.out.println("butts");
         if (!verified) {
             return false;
         }
         
         //Find K
         byte[] K = null;
-        
+        System.out.println("butts");
         try {
             Cipher rsaCipher = Cipher.getInstance("RSA/ECB/Pkcs1Padding");
             rsaCipher.init(Cipher.DECRYPT_MODE, keys[0].getPrivate());
@@ -423,6 +424,7 @@ public class assignment3 {
         
         //Find the Mpadded
         byte[] mpadded = null;
+        System.out.println("butts");
         try {
             byte[] IV = Arrays.copyOfRange(c2, 0, 16);
     	    Cipher aes = Cipher.getInstance("AES/CTR/NoPadding");
@@ -432,6 +434,7 @@ public class assignment3 {
             return false;
         }
         //Verify the pkcs padding
+        System.out.println("butts");
         byte endByte = mpadded[mpadded.length - 1];
         for (int i = 1; i < (int)endByte + 1; i++) {
             if (mpadded[mpadded.length - i] != endByte) {
@@ -448,13 +451,13 @@ public class assignment3 {
         ByteBuffer buffer = ByteBuffer.allocate(8);
         buffer.putLong(crcVal);
         byte[] crcRA = Arrays.copyOfRange(buffer.array(), 4, 8);
-        
+        System.out.println("butts");
         for (int i = 0; i < 4; i++) {
             if (crcRA[i] != crc[i]) {
                 return false;
             }
         }
-        
+        System.out.println("butts");
         //Parse Mformatted as user message
         String mformmatedString = new String(mformatted);
         String[] messageParts = mformmatedString.split(":");
