@@ -116,7 +116,7 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", username, objString);
             }
-        System.out.println(decrypt(keys, "a", serverURL, port, getAllMessages(serverURL, port, "a")));
+        System.out.println(getAllMessages(serverURL, port, "a"));
             
         } catch (Exception e) {
             System.out.println(e);
