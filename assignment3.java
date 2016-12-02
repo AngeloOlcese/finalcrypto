@@ -412,7 +412,7 @@ public class assignment3 {
         
         //Find K
         byte[] K = null;
-        System.out.println("butts");
+        System.out.println(c1Base64);
         try {
             Cipher rsaCipher = Cipher.getInstance("RSA/ECB/Pkcs1Padding");
             rsaCipher.init(Cipher.DECRYPT_MODE, keys[0].getPrivate());
