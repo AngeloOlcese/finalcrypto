@@ -110,8 +110,7 @@ public class assignment3 {
                 
                 //Create JsonObject to send to server
                 JsonBuilderFactory factory = Json.createBuilderFactory(null);
-                String num = String.valueOf(i);
-                JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
+                JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", "0").add("message", output).build();
                 String objString = obj.toString();
         
                 composeMessage(serverURL, port, "a", username, objString);
