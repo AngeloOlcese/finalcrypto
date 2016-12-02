@@ -113,7 +113,7 @@ public class assignment3 {
                 JsonObject obj = Json.createObjectBuilder().add("recipient", "bob").add("messageID", "0").add("message", output).build();
                 String objString = obj.toString();
         
-                composeMessage(serverURL, port, "a", "bob", objString);
+                composeMessage(serverURL, port, "alice", "bob", objString);
             //}
         System.out.println(getAllMessages(serverURL, port, "a"));
             
