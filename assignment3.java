@@ -75,7 +75,7 @@ public class assignment3 {
                 encryptedMessage = getAllMessages(serverURL, port, username);
             }
             System.out.println(encryptedMessage);
-            maul(keys, encryptedMessage, serverURL, port);
+            maul(keys, encryptedMessage, serverURL, port, username);
             
             
         } catch (Exception e) {
@@ -83,7 +83,7 @@ public class assignment3 {
         }
     }
     
-    private static void maul(KeyPair[] keys, String encryptedMessage, String serverURL, String port) {
+    private static void maul(KeyPair[] keys, String encryptedMessage, String serverURL, String port, String username) {
         Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
         
@@ -94,8 +94,8 @@ public class assignment3 {
         byte[] c2 = decoder.decode(message[1]);
        
         try {
-            //for (int i = -128; i < 127 ; i++) { 
-                //c2[17] = (byte) i;
+            for (int i = -128; i < 127 ; i++) { 
+                c2[17] = (byte) i;
                                           
                 String c2base64String = new String(encoder.encode(c2));
                 String combined = c1base64 + " " + c2base64String;
@@ -110,11 +110,11 @@ public class assignment3 {
                 
                 //Create JsonObject to send to server
                 JsonBuilderFactory factory = Json.createBuilderFactory(null);
-                JsonObject obj = Json.createObjectBuilder().add("recipient", "bob").add("messageID", "0").add("message", output).build();
+                JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", "0").add("message", output).build();
                 String objString = obj.toString();
         
-                composeMessage(serverURL, port, "alice", "bob", objString);
-            //}
+                composeMessage(serverURL, port, "a", username, objString);
+            }
         System.out.println(getAllMessages(serverURL, port, "a"));
             
         } catch (Exception e) {
@@ -149,7 +149,7 @@ public class assignment3 {
             os.write(message.getBytes());
         }
         
-        connection.getResponseMessage();
+        System.out.println(connection.getResponseMessage());
     }
     
     private static String encrypt(KeyPair[] keys, String username, String otherUser, String otherKeys, String message) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException {
