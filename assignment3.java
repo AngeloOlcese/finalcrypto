@@ -110,12 +110,13 @@ public class assignment3 {
                 
                 //Create JsonObject to send to server
                 JsonBuilderFactory factory = Json.createBuilderFactory(null);
-                JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", "0").add("message", output).build();
+                String num = String.valueOf(i);
+                JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
                 String objString = obj.toString();
         
                 composeMessage(serverURL, port, "a", username, objString);
             }
-        System.out.println(getAllMessages(serverURL, port, "a"));
+        System.out.println(decrypt(keys, "a", serverURL, port, getAllMessages(serverURL, port, "a")));
             
         } catch (Exception e) {
             System.out.println(e);
