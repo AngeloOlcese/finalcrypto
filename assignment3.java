@@ -116,7 +116,9 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", username, objString);
             }
-        decrypt(keys, "a", serverURL, port, getAllMessages(serverURL, port, "a"));
+        JsonObject m = getAllMessages(serverURL, port, "a");
+        System.out.println(m);
+        decrypt(keys, "a", serverURL, port, m);
             
         } catch (Exception e) {
             System.out.println(e);
@@ -417,6 +419,7 @@ public class assignment3 {
             rsaCipher.init(Cipher.DECRYPT_MODE, keys[0].getPrivate());
             K = rsaCipher.doFinal(c1);
         }catch (Exception e) {
+            System.out.println(e);
             return false;
         }
         SecretKey aesKey = new SecretKeySpec(K, 0, K.length, "AES"); 
@@ -429,6 +432,7 @@ public class assignment3 {
         	aes.init(aes.DECRYPT_MODE, aesKey, new IvParameterSpec(IV));    
             mpadded = aes.doFinal(Arrays.copyOfRange(c2, 16, c2.length));
         }catch (Exception e) {
+            System.out.println(e);
             return false;
         }
         //Verify the pkcs padding
