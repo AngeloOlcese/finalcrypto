@@ -70,8 +70,8 @@ public class assignment3 {
             KeyPair[] keys = new KeyPair[2];
             keys = registerKeys(serverURL, port, "a");
 
-            String encryptedMessage = getAllMessages(serverURL, port, username);
-            while (encryptedMessage == "") {               
+            JsonObject encryptedMessage = getAllMessages(serverURL, port, username);
+            while (encryptedMessage == null) {               
                 encryptedMessage = getAllMessages(serverURL, port, username);
             }
             System.out.println(encryptedMessage);
@@ -83,10 +83,11 @@ public class assignment3 {
         }
     }
     
-    private static void maul(KeyPair[] keys, String encryptedMessage, String serverURL, String port, String username) {
+    private static void maul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username) {
         Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
         
+        String encryptedMessage = messageData.getString("message");
         String[] message = encryptedMessage.split(" ");
         
         //Split the message into its parts and decode
@@ -115,7 +116,7 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", username, objString);
             }
-        System.out.println(getAllMessages(serverURL, port, "a"));
+        System.out.println(decrypt(keys, "a", serverURL, port, getAllMessages(serverURL, port, "a")));
             
         } catch (Exception e) {
             System.out.println(e);
@@ -333,7 +334,7 @@ public class assignment3 {
         System.out.println();
     }
     
-    private static String getAllMessages(String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
+    private static JsonObject getAllMessages(String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
         String origURL = serverURL;
         //Open the connection to the server
         serverURL = "http://" + serverURL + ":" + port;
@@ -361,11 +362,7 @@ public class assignment3 {
         if (numMessages > 0) {
             reader = Json.createReader(new StringReader(messageMeta.get(0).toString()));
             JsonObject messageData = reader.readObject();
-            String senderID = messageData.getString("senderID");
-            int messageID = messageData.getInt("messageID");
-            String encryptedMessage = messageData.getString("message");
-            return encryptedMessage;
-            
+            return messageData;            
             /*try {
                 decrypt(keys, username, origURL, port, message);
             } catch (Exception e) {
@@ -374,7 +371,7 @@ public class assignment3 {
                 continue;
             }*/
         } else {
-            return "";
+            return null;
         }
     }
     
