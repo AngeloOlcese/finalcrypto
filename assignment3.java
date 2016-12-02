@@ -90,17 +90,15 @@ public class assignment3 {
         String[] message = encryptedMessage.split(" ");
         
         //Split the message into its parts and decode
-        String c1base64String = message[0];
-        String c2Base64 = message[1];
-        byte[] c2 = message[1].getBytes();
-        c2 = decoder.decode(c2);
-        
+        String c1base64 = message[0];
+        byte[] c2 = decoder.decode(message[1]);
+       
         try {
-            for (int i = -128; i < 127 ; i++) { 
-                c2[17] = (byte) i;
+            //for (int i = -128; i < 127 ; i++) { 
+                //c2[17] = (byte) i;
                                           
                 String c2base64String = new String(encoder.encode(c2));
-                String combined = c1base64String + " " + c2base64String;
+                String combined = c1base64 + " " + c2base64String;
                 
                 Signature dsaSig = Signature.getInstance("DSA");
                 dsaSig.initSign(keys[1].getPrivate());
@@ -116,7 +114,7 @@ public class assignment3 {
                 String objString = obj.toString();
         
                 composeMessage(serverURL, port, "a", "bob", objString);
-            }
+            //}
         System.out.println(getAllMessages(serverURL, port, "a"));
             
         } catch (Exception e) {
