@@ -388,7 +388,7 @@ public class assignment3 {
         //Split the message into its parts and decode
         String c1Base64 = message[0];
         String c2Base64 = message[1];
-        byte[] c1 = decoder.decode(message[0]);
+        byte[] c1 = message[0].getBytes();
         byte[] c2 = decoder.decode(message[1]);
         byte[] sigma = decoder.decode(message[2].getBytes());
         
@@ -412,7 +412,6 @@ public class assignment3 {
         
         //Find K
         byte[] K = null;
-        System.out.println(c1[c1.length-1]);
         try {
             Cipher rsaCipher = Cipher.getInstance("RSA/ECB/Pkcs1Padding");
             rsaCipher.init(Cipher.DECRYPT_MODE, keys[0].getPrivate());
