@@ -117,6 +117,7 @@ public class assignment3 {
                 composeMessage(serverURL, port, "a", username, objString);
             }
         JsonObject m = getAllMessages(keys, serverURL, port, "a");
+        decrypt(keys, "a", serverURL, port, m);
             
         } catch (Exception e) {
             System.out.println(e);
@@ -362,14 +363,14 @@ public class assignment3 {
         if (numMessages > 0) {
             reader = Json.createReader(new StringReader(messageMeta.get(0).toString()));
             JsonObject messageData = reader.readObject();
-                      
-            try {
-                decrypt(keys, "a", origURL, port, messageData);
+            return messageData;            
+            /*try {
+                decrypt(keys, username, origURL, port, message);
             } catch (Exception e) {
                 System.out.println("Exception while attempting to decrypt message");
                 System.out.println(e);
-            }
-            return messageData;  
+                continue;
+            }*/
         } else {
             return null;
         }
@@ -411,7 +412,7 @@ public class assignment3 {
         
         //Find K
         byte[] K = null;
-        
+        System.out.println(c1[c1.length-1]);
         try {
             Cipher rsaCipher = Cipher.getInstance("RSA/ECB/Pkcs1Padding");
             rsaCipher.init(Cipher.DECRYPT_MODE, keys[0].getPrivate());
