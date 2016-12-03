@@ -385,6 +385,7 @@ public class assignment3 {
         String encryptedMessage = messageData.getString("message");
         String[] message = encryptedMessage.split(" ");
         
+        
         //Split the message into its parts and decode
         String c1Base64 = message[0];
         String c2Base64 = message[1];
@@ -412,6 +413,7 @@ public class assignment3 {
         
         //Find K
         byte[] K = null;
+        System.out.println("butts");
         try {
             Cipher rsaCipher = Cipher.getInstance("RSA/ECB/Pkcs1Padding");
             rsaCipher.init(Cipher.DECRYPT_MODE, keys[0].getPrivate());
@@ -424,6 +426,7 @@ public class assignment3 {
         
         //Find the Mpadded
         byte[] mpadded = null;
+        System.out.println("butts");
         try {
             byte[] IV = Arrays.copyOfRange(c2, 0, 16);
     	    Cipher aes = Cipher.getInstance("AES/CTR/NoPadding");
