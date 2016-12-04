@@ -117,7 +117,7 @@ public class assignment3 {
                 String objString = obj.toString();
         
                 composeMessage(serverURL, port, "a", username, objString);
-            }
+            }   
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -532,6 +532,7 @@ public class assignment3 {
             return null;
         }
         
+        System.out.println("decrypt");
         String num = mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()).split(" ")[1];
         return num;
     }
