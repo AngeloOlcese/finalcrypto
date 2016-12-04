@@ -78,12 +78,13 @@ public class assignment3 {
             System.out.println(encryptedMessage);
             System.out.println("Part 2: Maul the message");
             maul(keys, encryptedMessage, serverURL, port, username);
+            System.out.println("Asdasda");
             String number = getDecryptedMessageNum(keys, serverURL, port, "a");
             System.out.println("I registered keys under the name 'a' then mauled the message so the first two chars were 'a:', then signed the message as 'a'");
             System.out.println(recreateMaul(keys, encryptedMessage, serverURL, port, username, number));
             
         } catch (Exception e) {
-            System.out.println("Something went wrong on line 77");
+            System.out.println("Something went wrong");
         }
     }
     
