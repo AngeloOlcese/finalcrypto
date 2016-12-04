@@ -76,9 +76,9 @@ public class assignment3 {
             }
             System.out.println("Part 1: Message from Alice to Bob");
             System.out.println(encryptedMessage);
-            System.out.println("Part 2: Maul the message");
+            System.out.println("Part 2: Maul the message and keep sending until we encounter a read recipt");
             String number = maul(keys, encryptedMessage, serverURL, port, username);
-            System.out.println("Alter the second byte of the message to be ':' so we can send the message with username 'a'");
+            System.out.println("Here is the altered message we sent:");
             System.out.println(recreateMaul(keys, encryptedMessage, serverURL, port, username, number));
         } catch (Exception e) {
             System.out.println(e + "/nSomething went wrong on line 77");
@@ -542,6 +542,9 @@ public class assignment3 {
         }
         
         String num = mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()).split(" ")[1];
+        System.out.println("Message ID: " + messageID);
+        System.out.println("From: " + senderID);
+        System.out.println(mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()));
         return num;
     }
     
