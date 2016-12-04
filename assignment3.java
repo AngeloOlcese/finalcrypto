@@ -70,9 +70,9 @@ public class assignment3 {
             KeyPair[] keys = new KeyPair[2];
             keys = registerKeys(serverURL, port, "a");
 
-            JsonObject encryptedMessage = getAllMessages(keys, serverURL, port, username);
+            JsonObject encryptedMessage = getOneMessage(keys, serverURL, port, username);
             while (encryptedMessage == null) {               
-                encryptedMessage = getAllMessages(keys, serverURL, port, username);
+                encryptedMessage = getOneMessage(keys, serverURL, port, username);
             }
             maul(keys, encryptedMessage, serverURL, port, username);
             
@@ -116,8 +116,7 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", username, objString);
             }
-        JsonObject m = getAllMessages(keys, serverURL, port, "a");
-        decrypt(keys, "a", serverURL, port, m);
+        getAllMessages(keys, serverURL, port, "a");
             
         } catch (Exception e) {
             System.out.println(e);
@@ -335,7 +334,7 @@ public class assignment3 {
         System.out.println();
     }
     
-    private static JsonObject getAllMessages(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
+    private static JsonObject getOneMessage(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
         String origURL = serverURL;
         //Open the connection to the server
         serverURL = "http://" + serverURL + ":" + port;
@@ -364,18 +363,49 @@ public class assignment3 {
             reader = Json.createReader(new StringReader(messageMeta.get(0).toString()));
             JsonObject messageData = reader.readObject();
             return messageData;            
-            /*try {
-                decrypt(keys, username, origURL, port, message);
-            } catch (Exception e) {
-                System.out.println("Exception while attempting to decrypt message");
-                System.out.println(e);
-                continue;
-            }*/
         } else {
             return null;
         }
     }
     
+    private static void getAllMessages(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
+        String origURL = serverURL;
+        //Open the connection to the server
+        serverURL = "http://" + serverURL + ":" + port;
+        serverURL += "/getMessages/" + username;
+        URL url = new URL(serverURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+
+        //Get all the messages
+        BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String messages = input.readLine();
+        input.close();
+        
+        //Create Json object from the json esque string
+        JsonReader reader = Json.createReader(new StringReader(messages));
+        JsonObject allMessages = reader.readObject();
+        reader.close();
+        
+        int numMessages = allMessages.getInt("numMessages");
+        JsonArray messageMeta = allMessages.getJsonArray("messages");
+        
+        for (int i = 0; i < messageMeta.size(); i++) {
+            reader = Json.createReader(new StringReader(messageMeta.get(i).toString()));
+            JsonObject message = reader.readObject();
+            try { 
+                decrypt(keys, username, origURL, port, message);
+            } catch (Exception e) {
+                System.out.println("Exception while attempting to decrypt message");
+                System.out.println(e);
+                continue;
+            }
+        }
+    }
+
     private static boolean decrypt(KeyPair[] keys, String username, String serverURL, String port, JsonObject messageData) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException {
         Base64.Decoder decoder = Base64.getDecoder();
         //Get all thed aata from the messageData
