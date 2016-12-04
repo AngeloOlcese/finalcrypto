@@ -69,7 +69,8 @@ public class assignment3 {
             //Register a public key
             KeyPair[] keys = new KeyPair[2];
             keys = registerKeys(serverURL, port, "a");
-
+            
+            System.out.println("butt");
             JsonObject encryptedMessage = getOneMessage(keys, serverURL, port, username);
             while (encryptedMessage == null) {               
                 encryptedMessage = getOneMessage(keys, serverURL, port, username);
