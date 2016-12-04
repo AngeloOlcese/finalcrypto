@@ -406,7 +406,7 @@ public class assignment3 {
         }
     }
 
-    private static boolean decrypt(KeyPair[] keys, String username, String serverURL, String port, JsonObject messageData) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException {
+    private static String decrypt(KeyPair[] keys, String username, String serverURL, String port, JsonObject messageData) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException {
         Base64.Decoder decoder = Base64.getDecoder();
         //Get all thed aata from the messageData
         int time = messageData.getInt("sentTime");
@@ -438,25 +438,23 @@ public class assignment3 {
         dsaSig.update((c1Base64 + " " + c2Base64).getBytes());
         boolean verified = dsaSig.verify(sigma);
         if (!verified) {
-            return false;
+            return "";
         }
         
         //Find K
         byte[] K = null;
-        System.out.println("butts");
         try {
             Cipher rsaCipher = Cipher.getInstance("RSA/ECB/Pkcs1Padding");
             rsaCipher.init(Cipher.DECRYPT_MODE, keys[0].getPrivate());
             K = rsaCipher.doFinal(c1);
         }catch (Exception e) {
             System.out.println(e);
-            return false;
+            return "";
         }
         SecretKey aesKey = new SecretKeySpec(K, 0, K.length, "AES"); 
         
         //Find the Mpadded
         byte[] mpadded = null;
-        System.out.println("butts");
         try {
             byte[] IV = Arrays.copyOfRange(c2, 0, 16);
     	    Cipher aes = Cipher.getInstance("AES/CTR/NoPadding");
@@ -464,13 +462,13 @@ public class assignment3 {
             mpadded = aes.doFinal(Arrays.copyOfRange(c2, 16, c2.length));
         }catch (Exception e) {
             System.out.println(e);
-            return false;
+            return "";
         }
         //Verify the pkcs padding
         byte endByte = mpadded[mpadded.length - 1];
         for (int i = 1; i < (int)endByte + 1; i++) {
             if (mpadded[mpadded.length - i] != endByte) {
-                return false;
+                return "";
             }
         }
         //Compute mcrc and verify the crc
@@ -486,7 +484,7 @@ public class assignment3 {
         
         for (int i = 0; i < 4; i++) {
             if (crcRA[i] != crc[i]) {
-                return false;
+                return "";
             }
         }
         
@@ -494,13 +492,12 @@ public class assignment3 {
         String mformmatedString = new String(mformatted);
         String[] messageParts = mformmatedString.split(":");
         if (!messageParts[0].equals(senderID)) {
-            return false;
+            return "";
         }
         
-        System.out.println("Message ID: " + messageID);
-        System.out.println("From: " + senderID);
-        System.out.println(mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()));
-        return true;
+        String num = mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()).split(" ")[1];
+        System.out.println(num);
+        return num;
     }
     
     //Function for XORing a byte array
