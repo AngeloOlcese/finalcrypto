@@ -78,7 +78,8 @@ public class assignment3 {
             System.out.println(encryptedMessage);
             System.out.println("Part 2: Maul the message");
             maul(keys, encryptedMessage, serverURL, port, username);
-
+            Thread.sleep(1000);
+            getAllMessages(keys, serverURL, port, "a");
         } catch (Exception e) {
             System.out.println(e + "/nSomething went wrong on line 77");
         }
@@ -118,7 +119,6 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", username, objString);
             }   
-        getAllMessages(keys, serverURL, port, "a");
         } catch (Exception e) {
             System.out.println(e);
         }
