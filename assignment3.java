@@ -139,8 +139,9 @@ public class assignment3 {
         byte[] c2 = decoder.decode(message[1]);
         int blocks = (int) Math.ceil(c2.length / 16.0 - 1);
         byte[] cipherPad = new byte[16];
+        JsonObject data = messageData;
         for (int i = 1; i <= 16; i ++) {
-            String number = maul(keys, messageData, serverURL, port, username, c2.length-i);
+            String number = maul(keys, data, serverURL, port, username, c2.length-i);
             
             int val = Integer.parseInt(number) ^ i;
             cipherPad[16-i] = (byte) val;
@@ -149,7 +150,7 @@ public class assignment3 {
             System.out.println("This plaintext byte value is: " + value);
             for (int j = 1; j <= i; j++) {
                 String neededVal = String.valueOf((int)cipherPad[16-j] ^ (i + 1)); 
-                messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - j);
+                data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
             }
         }
         
@@ -170,7 +171,6 @@ public class assignment3 {
        
         try { 
             c2[byteNum] = (byte) Integer.parseInt(number);
-            System.out.println(c2[byteNum]);
                                       
             String c2base64String = new String(encoder.encode(c2));
             String combined = c1base64 + " " + c2base64String;
