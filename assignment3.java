@@ -155,7 +155,6 @@ public class assignment3 {
         
         byte[] lastBlock = Arrays.copyOfRange(c2, c2.length-16, c2.length);
         System.out.println(new String(XorRA(lastBlock, cipherPad, 16)));
-        //byte value = (byte)((int) c2[c2.length-1] ^ val);
        
     }
     private static JsonObject recreateMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, String number, int byteNum) {
@@ -171,6 +170,7 @@ public class assignment3 {
        
         try { 
             c2[byteNum] = (byte) Integer.parseInt(number);
+            System.out.println(c2[byteNum]);
                                       
             String c2base64String = new String(encoder.encode(c2));
             String combined = c1base64 + " " + c2base64String;
