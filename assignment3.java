@@ -476,7 +476,7 @@ public class assignment3 {
         dsaSig.update((c1Base64 + " " + c2Base64).getBytes());
         boolean verified = dsaSig.verify(sigma);
         if (!verified) {
-            return null;
+            return "";
         }
         
         //Find K
@@ -486,7 +486,7 @@ public class assignment3 {
             rsaCipher.init(Cipher.DECRYPT_MODE, keys[0].getPrivate());
             K = rsaCipher.doFinal(c1);
         }catch (Exception e) {
-            return null;
+            return "";
         }
         SecretKey aesKey = new SecretKeySpec(K, 0, K.length, "AES"); 
         
@@ -499,13 +499,13 @@ public class assignment3 {
             mpadded = aes.doFinal(Arrays.copyOfRange(c2, 16, c2.length));
         }catch (Exception e) {
             System.out.println(e);
-            return null;
+            return "";
         }
         //Verify the pkcs padding
         byte endByte = mpadded[mpadded.length - 1];
         for (int i = 1; i < (int)endByte + 1; i++) {
             if (mpadded[mpadded.length - i] != endByte) {
-                return null;
+                return "";
             }
         }
         //Compute mcrc and verify the crc
@@ -521,7 +521,7 @@ public class assignment3 {
         
         for (int i = 0; i < 4; i++) {
             if (crcRA[i] != crc[i]) {
-                return null;
+                return "";
             }
         }
         
@@ -529,7 +529,7 @@ public class assignment3 {
         String mformmatedString = new String(mformatted);
         String[] messageParts = mformmatedString.split(":");
         if (!messageParts[0].equals(senderID)) {
-            return null;
+            return "";
         }
         
         String num = mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()).split(" ")[1];
