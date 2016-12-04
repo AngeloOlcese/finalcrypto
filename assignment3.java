@@ -80,8 +80,9 @@ public class assignment3 {
             System.out.println("Part 2: Maul the message and keep sending until we encounter a read recipt");
             String number = maul(keys, encryptedMessage, serverURL, port, username, 17);
             System.out.println("Here is the altered message we sent:");
-            System.out.println(recreateMaul(keys, encryptedMessage, serverURL, port, username, number));
-            retroDecrypt(keys, encryptedMessage, serverURL, port, username);
+            JsonObject newMessage = recreateMaul(keys, encryptedMessage, serverURL, port, username, number);
+            System.out.println(newMessage.toString());
+            retroDecrypt(keys, newMessage, serverURL, port, username);
         } catch (Exception e) {
             System.out.println(e + "/nSomething went wrong on line 77");
         }
@@ -145,7 +146,7 @@ public class assignment3 {
         
        
     }
-    private static String recreateMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, String number) {
+    private static JsonObject recreateMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, String number) {
         Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
         
@@ -174,8 +175,7 @@ public class assignment3 {
             JsonBuilderFactory factory = Json.createBuilderFactory(null);
             String num = String.valueOf(number);
             JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
-            String objString = obj.toString();
-            return objString;
+            return obj;
         } catch (Exception e) {
             System.out.println(e);
             return null;
