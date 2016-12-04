@@ -74,8 +74,13 @@ public class assignment3 {
             while (encryptedMessage == null) {               
                 encryptedMessage = getOneMessage(keys, serverURL, port, username);
             }
+            System.out.println("Part 1: Message from Alice to Bob");
+            System.out.println(encryptedMessage);
+            System.out.println("Part 2: Maul the message");
             maul(keys, encryptedMessage, serverURL, port, username);
-            
+            String number = getDecryptedMessageNum(keys, serverURL, port, "a");
+            System.out.println("I registered keys under the name 'a' then mauled the message so the first two chars were 'a:', then signed the message as 'a'");
+            System.out.println(recreateMaul(keys, encryptedMessage, serverURL, port, username, number));
             
         } catch (Exception e) {
             System.out.println("Something went wrong on line 77");
@@ -116,13 +121,47 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", username, objString);
             }
-        getAllMessages(keys, serverURL, port, "a");
-            
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }
+    
+    private static String recreateMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, String number) {
+        Base64.Decoder decoder = Base64.getDecoder();
+        Base64.Encoder encoder = Base64.getEncoder();
+        
+        String encryptedMessage = messageData.getString("message");
+        String[] message = encryptedMessage.split(" ");
+        
+        //Split the message into its parts and decode
+        String c1base64 = message[0];
+        byte[] c2 = decoder.decode(message[1]);
+       
+        try { 
+            c2[17] = (byte) Integer.parseInt(number);
+                                      
+            String c2base64String = new String(encoder.encode(c2));
+            String combined = c1base64 + " " + c2base64String;
+            
+            Signature dsaSig = Signature.getInstance("DSA");
+            dsaSig.initSign(keys[1].getPrivate());
+            dsaSig.update(combined.getBytes());
+            byte[] signature = encoder.encode(dsaSig.sign());
+            
+            //Final ciphertext
+            String output = combined + " " + new String(signature);
+            
+            //Create JsonObject to send to server
+            JsonBuilderFactory factory = Json.createBuilderFactory(null);
+            String num = String.valueOf(number);
+            JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
+            String objString = obj.toString();
+            return objString;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+   }
     
     private static void getFingerPrint(String serverURL, String port, String username)throws NoSuchAlgorithmException, NoSuchProviderException, IOException {
         //Get the utf8 encoded key string
@@ -368,7 +407,7 @@ public class assignment3 {
         }
     }
     
-    private static void getAllMessages(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
+    private static String getDecryptedMessageNum(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
         String origURL = serverURL;
         //Open the connection to the server
         serverURL = "http://" + serverURL + ":" + port;
@@ -393,16 +432,14 @@ public class assignment3 {
         int numMessages = allMessages.getInt("numMessages");
         JsonArray messageMeta = allMessages.getJsonArray("messages");
         
-        for (int i = 0; i < messageMeta.size(); i++) {
-            reader = Json.createReader(new StringReader(messageMeta.get(i).toString()));
-            JsonObject message = reader.readObject();
-            try { 
-                decrypt(keys, username, origURL, port, message);
-            } catch (Exception e) {
-                System.out.println("Exception while attempting to decrypt message");
-                System.out.println(e);
-                continue;
-            }
+        reader = Json.createReader(new StringReader(messageMeta.get(0).toString()));
+        JsonObject message = reader.readObject();
+        try { 
+            return decrypt(keys, username, origURL, port, message);
+        } catch (Exception e) {
+            System.out.println("Exception while attempting to decrypt message");
+            System.out.println(e);
+            return null;
         }
     }
 
@@ -438,7 +475,7 @@ public class assignment3 {
         dsaSig.update((c1Base64 + " " + c2Base64).getBytes());
         boolean verified = dsaSig.verify(sigma);
         if (!verified) {
-            return "";
+            return null;
         }
         
         //Find K
@@ -449,7 +486,7 @@ public class assignment3 {
             K = rsaCipher.doFinal(c1);
         }catch (Exception e) {
             System.out.println(e);
-            return "";
+            return null;
         }
         SecretKey aesKey = new SecretKeySpec(K, 0, K.length, "AES"); 
         
@@ -462,13 +499,13 @@ public class assignment3 {
             mpadded = aes.doFinal(Arrays.copyOfRange(c2, 16, c2.length));
         }catch (Exception e) {
             System.out.println(e);
-            return "";
+            return null;
         }
         //Verify the pkcs padding
         byte endByte = mpadded[mpadded.length - 1];
         for (int i = 1; i < (int)endByte + 1; i++) {
             if (mpadded[mpadded.length - i] != endByte) {
-                return "";
+                return null;
             }
         }
         //Compute mcrc and verify the crc
@@ -484,7 +521,7 @@ public class assignment3 {
         
         for (int i = 0; i < 4; i++) {
             if (crcRA[i] != crc[i]) {
-                return "";
+                return null;
             }
         }
         
@@ -492,11 +529,10 @@ public class assignment3 {
         String mformmatedString = new String(mformatted);
         String[] messageParts = mformmatedString.split(":");
         if (!messageParts[0].equals(senderID)) {
-            return "";
+            return null;
         }
         
         String num = mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()).split(" ")[1];
-        System.out.println(num);
         return num;
     }
     
