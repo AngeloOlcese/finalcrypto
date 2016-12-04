@@ -78,7 +78,7 @@ public class assignment3 {
             System.out.println(encryptedMessage);
             System.out.println("Part 2: Maul the message");
             maul(keys, encryptedMessage, serverURL, port, username);
-            Thread.sleep(1000);
+            Thread.sleep(5000);
             getAllMessages(keys, serverURL, port, "a");
         } catch (Exception e) {
             System.out.println(e + "/nSomething went wrong on line 77");
