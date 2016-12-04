@@ -117,12 +117,10 @@ public class assignment3 {
                 JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
                 String objString = obj.toString();
         
-                composeMessage(serverURL, port, "a", username, objString);
-                String number = getAllMessages(keys, serverURL, port, "a");
-                if (number != "") {
-                    return number;
-                }
+                composeMessage(serverURL, port, "a", username, objString);               
             }   
+            Thread.sleep(10000);
+            String number = getAllMessages(keys, serverURL, port, "a");
         } catch (Exception e) {
             System.out.println(e);
         }
