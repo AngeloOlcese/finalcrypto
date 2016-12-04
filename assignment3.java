@@ -78,7 +78,7 @@ public class assignment3 {
             System.out.println(encryptedMessage);
             System.out.println("Part 2: Maul the message");
             maul(keys, encryptedMessage, serverURL, port, username);
-            System.out.println(getDecryptedMessageNum(keys, serverURL, port, "a"));
+            getAllMessages(keys, serverURL, port, "a");
         } catch (Exception e) {
             System.out.println("Something went wrong on line 77");
         }
@@ -404,7 +404,7 @@ public class assignment3 {
         }
     }
     
-    private static String getDecryptedMessageNum(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
+    private static void getAllMessages(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
         String origURL = serverURL;
         //Open the connection to the server
         serverURL = "http://" + serverURL + ":" + port;
@@ -429,16 +429,19 @@ public class assignment3 {
         int numMessages = allMessages.getInt("numMessages");
         JsonArray messageMeta = allMessages.getJsonArray("messages");
         
-        reader = Json.createReader(new StringReader(messageMeta.get(0).toString()));
-        JsonObject message = reader.readObject();
-        try { 
-            return decrypt(keys, "a", origURL, port, message);
-        } catch (Exception e) {
-            System.out.println("Exception while attempting to decrypt message");
-            System.out.println(e);
-            return null;
+        for (int i = 0; i < messageMeta.size(); i++) {
+            reader = Json.createReader(new StringReader(messageMeta.get(i).toString()));
+            JsonObject message = reader.readObject();
+            try { 
+                System.out.println(decrypt(keys, username, origURL, port, message));
+            } catch (Exception e) {
+                System.out.println("Exception while attempting to decrypt message");
+                System.out.println(e);
+                continue;
+            }
         }
     }
+
 
     private static String decrypt(KeyPair[] keys, String username, String serverURL, String port, JsonObject messageData) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException {
         Base64.Decoder decoder = Base64.getDecoder();
