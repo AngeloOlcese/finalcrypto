@@ -116,8 +116,8 @@ public class assignment3 {
                 String objString = obj.toString();
         
                 composeMessage(serverURL, port, "a", username, objString);
+                getAllMessages(keys, serverURL, port, "a");
             }   
-            getAllMessages(keys, serverURL, port, "a");
         } catch (Exception e) {
             System.out.println(e);
         }
