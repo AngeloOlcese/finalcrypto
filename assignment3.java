@@ -149,7 +149,7 @@ public class assignment3 {
             byte value = (byte)((int) c2[c2.length-1] ^ val);
             System.out.println("This plaintext byte value is: " + value);
             for (int j = 1; j <= i; j++) {
-                String neededVal = String.valueOf((int)cipherPad[16-j] ^ i); 
+                String neededVal = String.valueOf((int)cipherPad[16-j] ^ (i + 1)); 
                 messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - j);
             }
         }
