@@ -77,13 +77,15 @@ public class assignment3 {
             System.out.println("Part 1: Message from Alice to Bob");
             System.out.println(encryptedMessage);
             System.out.println("Part 2: Maul the message");
-            maul(keys, encryptedMessage, serverURL, port, username);;
+            String number = maul(keys, encryptedMessage, serverURL, port, username);
+            System.out.println("Alter the second byte of the message to be ':' so we can send the message with username 'a'");
+            System.out.println(recreateMaul(keys, encryptedMessage, serverURL, port, username, number));
         } catch (Exception e) {
             System.out.println(e + "/nSomething went wrong on line 77");
         }
     }
     
-    private static void maul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username) {
+    private static String maul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username) {
         Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
         
@@ -116,11 +118,15 @@ public class assignment3 {
                 String objString = obj.toString();
         
                 composeMessage(serverURL, port, "a", username, objString);
-                getAllMessages(keys, serverURL, port, "a");
+                String number = getAllMessages(keys, serverURL, port, "a");
+                if (number != "") {
+                    return number;
+                }
             }   
         } catch (Exception e) {
             System.out.println(e);
         }
+        return "";
     }
     
     private static String recreateMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, String number) {
@@ -404,7 +410,7 @@ public class assignment3 {
         }
     }
     
-    private static void getAllMessages(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
+    private static String getAllMessages(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
         String origURL = serverURL;
         //Open the connection to the server
         serverURL = "http://" + serverURL + ":" + port;
@@ -433,13 +439,17 @@ public class assignment3 {
             reader = Json.createReader(new StringReader(messageMeta.get(i).toString()));
             JsonObject message = reader.readObject();
             try { 
-                decrypt(keys, username, origURL, port, message);
+                String num = decrypt(keys, username, origURL, port, message);
+                if (num != "") {
+                    return num;
+                } 
             } catch (Exception e) {
                 System.out.println("Exception while attempting to decrypt message");
                 System.out.println(e);
                 continue;
             }
         }
+        return "";
     }
 
 
@@ -532,7 +542,6 @@ public class assignment3 {
         }
         
         String num = mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()).split(" ")[1];
-        System.out.println(num);
         return num;
     }
     
