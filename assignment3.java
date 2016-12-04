@@ -148,7 +148,7 @@ public class assignment3 {
             byte value = (byte)((int) c2[c2.length-i] ^ val);
             System.out.println("This plaintext byte value is: " + value);
             for (int j = 1; j <= i; j++) {
-                String neededVal = String.valueOf((int)cipherPad[16-j] ^ 3); 
+                String neededVal = String.valueOf((int)cipherPad[16-j] ^ (i + 1)); 
                 messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - j);
             }
         }
@@ -170,7 +170,7 @@ public class assignment3 {
         byte[] c2 = decoder.decode(message[1]);
        
         try { 
-            c2[17] = (byte) Integer.parseInt(number);
+            c2[byteNum] = (byte) Integer.parseInt(number);
                                       
             String c2base64String = new String(encoder.encode(c2));
             String combined = c1base64 + " " + c2base64String;
