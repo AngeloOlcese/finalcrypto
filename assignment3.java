@@ -68,6 +68,7 @@ public class assignment3 {
         try {
             //Register a public key
             KeyPair[] keys = new KeyPair[2];
+            System.out.println("butt");
             keys = registerKeys(serverURL, port, "a");
             
             System.out.println("butt");
@@ -81,7 +82,7 @@ public class assignment3 {
             maul(keys, encryptedMessage, serverURL, port, username);
             getAllMessages(keys, serverURL, port, "a");
         } catch (Exception e) {
-            System.out.println("Something went wrong on line 77");
+            System.out.println(e + "/nSomething went wrong on line 77");
         }
     }
     
