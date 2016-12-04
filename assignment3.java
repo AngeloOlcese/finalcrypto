@@ -68,10 +68,8 @@ public class assignment3 {
         try {
             //Register a public key
             KeyPair[] keys = new KeyPair[2];
-            System.out.println("butt");
             keys = registerKeys(serverURL, port, "a");
             
-            System.out.println("butt");
             JsonObject encryptedMessage = getOneMessage(keys, serverURL, port, username);
             while (encryptedMessage == null) {               
                 encryptedMessage = getOneMessage(keys, serverURL, port, username);
@@ -80,7 +78,7 @@ public class assignment3 {
             System.out.println(encryptedMessage);
             System.out.println("Part 2: Maul the message");
             maul(keys, encryptedMessage, serverURL, port, username);
-            getAllMessages(keys, serverURL, port, "a");
+
         } catch (Exception e) {
             System.out.println(e + "/nSomething went wrong on line 77");
         }
@@ -120,6 +118,7 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", username, objString);
             }   
+        getAllMessages(keys, serverURL, port, "a");
         } catch (Exception e) {
             System.out.println(e);
         }
