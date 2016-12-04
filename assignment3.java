@@ -78,7 +78,7 @@ public class assignment3 {
             System.out.println(encryptedMessage);
             System.out.println("Part 2: Maul the message");
             maul(keys, encryptedMessage, serverURL, port, username);
-            System.out.println(getDecryptedMessageNum(keys, serverURL, port, username));
+            System.out.println(getDecryptedMessageNum(keys, serverURL, port, "a"));
         } catch (Exception e) {
             System.out.println("Something went wrong on line 77");
         }
@@ -432,7 +432,7 @@ public class assignment3 {
         reader = Json.createReader(new StringReader(messageMeta.get(0).toString()));
         JsonObject message = reader.readObject();
         try { 
-            return decrypt(keys, username, origURL, port, message);
+            return decrypt(keys, "a", origURL, port, message);
         } catch (Exception e) {
             System.out.println("Exception while attempting to decrypt message");
             System.out.println(e);
