@@ -486,7 +486,6 @@ public class assignment3 {
             rsaCipher.init(Cipher.DECRYPT_MODE, keys[0].getPrivate());
             K = rsaCipher.doFinal(c1);
         }catch (Exception e) {
-            System.out.println(e);
             return null;
         }
         SecretKey aesKey = new SecretKeySpec(K, 0, K.length, "AES"); 
@@ -533,7 +532,6 @@ public class assignment3 {
             return null;
         }
         
-        System.out.println("decrypt");
         String num = mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()).split(" ")[1];
         return num;
     }
