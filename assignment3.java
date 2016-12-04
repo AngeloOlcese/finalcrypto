@@ -434,7 +434,7 @@ public class assignment3 {
             reader = Json.createReader(new StringReader(messageMeta.get(i).toString()));
             JsonObject message = reader.readObject();
             try { 
-                System.out.println(decrypt(keys, username, origURL, port, message));
+                decrypt(keys, username, origURL, port, message);
             } catch (Exception e) {
                 System.out.println("Exception while attempting to decrypt message");
                 System.out.println(e);
@@ -533,6 +533,7 @@ public class assignment3 {
         }
         
         String num = mformmatedString.substring(messageParts[0].length() + 1, mformmatedString.length()).split(" ")[1];
+        System.out.println(num);
         return num;
     }
     
