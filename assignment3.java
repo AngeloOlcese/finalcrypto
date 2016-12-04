@@ -77,9 +77,7 @@ public class assignment3 {
             System.out.println("Part 1: Message from Alice to Bob");
             System.out.println(encryptedMessage);
             System.out.println("Part 2: Maul the message");
-            maul(keys, encryptedMessage, serverURL, port, username);
-            Thread.sleep(5000);
-            getAllMessages(keys, serverURL, port, "a");
+            maul(keys, encryptedMessage, serverURL, port, username);;
         } catch (Exception e) {
             System.out.println(e + "/nSomething went wrong on line 77");
         }
@@ -118,6 +116,7 @@ public class assignment3 {
                 String objString = obj.toString();
         
                 composeMessage(serverURL, port, "a", username, objString);
+                getAllMessages(keys, serverURL, port, "a");
             }   
         } catch (Exception e) {
             System.out.println(e);
