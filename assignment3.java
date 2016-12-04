@@ -80,7 +80,7 @@ public class assignment3 {
             System.out.println("Part 2: Maul the message and keep sending until we encounter a read recipt");
             String number = maul(keys, encryptedMessage, serverURL, port, username, 17);
             System.out.println("Here is the altered message we sent:");
-            JsonObject newMessage = recreateMaul(keys, encryptedMessage, serverURL, port, username, number);
+            JsonObject newMessage = recreateMaul(keys, encryptedMessage, serverURL, port, username, number, 17);
             System.out.println(newMessage.toString());
             retroDecrypt(keys, newMessage, serverURL, port, username);
         } catch (Exception e) {
@@ -139,14 +139,22 @@ public class assignment3 {
         byte[] c2 = decoder.decode(message[1]);
         int blocks = (int) Math.ceil(c2.length / 16.0 - 1);
         byte[] cipherPad = new byte[16];
-        String number = maul(keys, messageData, serverURL, port, username, c2.length-1);
-        int val = Integer.parseInt(number) ^ 1;
-        byte value = (byte)((int) c2[c2.length-1] ^ val);
-        System.out.println(value);
+        for (int i = 1; i <= 16; i ++) {
+            String number = maul(keys, messageData, serverURL, port, username, c2.length-i);
+            int val = Integer.parseInt(number) ^ i;
+            cipherPad[c2.length-i] = (byte) val;
+            for (int j = 1; j <= i; j++) {
+                String neededVal = String.valueOf((int)cipherPad[c2.length-j] ^ i); 
+                messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - j);
+            }
+        }
         
+        byte[] lastBlock = Arrays.copyOfRange(c2, c2.length-16, c2.length);
+        System.out.println(new String(XorRA(lastBlock, cipherPad, 16)));
+        //byte value = (byte)((int) c2[c2.length-1] ^ val);
        
     }
-    private static JsonObject recreateMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, String number) {
+    private static JsonObject recreateMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, String number, int byteNum) {
         Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
         
