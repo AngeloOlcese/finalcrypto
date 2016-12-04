@@ -121,6 +121,7 @@ public class assignment3 {
             }   
             Thread.sleep(10000);
             String number = getAllMessages(keys, serverURL, port, "a");
+            return number;
         } catch (Exception e) {
             System.out.println(e);
         }
