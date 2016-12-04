@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Scanner;
 import java.math.BigInteger;
 import javax.xml.bind.DatatypeConverter;
+import java.lang.Math;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -77,15 +78,16 @@ public class assignment3 {
             System.out.println("Part 1: Message from Alice to Bob");
             System.out.println(encryptedMessage);
             System.out.println("Part 2: Maul the message and keep sending until we encounter a read recipt");
-            String number = maul(keys, encryptedMessage, serverURL, port, username);
+            String number = maul(keys, encryptedMessage, serverURL, port, username, 17);
             System.out.println("Here is the altered message we sent:");
             System.out.println(recreateMaul(keys, encryptedMessage, serverURL, port, username, number));
+            retroDecrypt(keys, encryptedMessage, serverURL, port, username);
         } catch (Exception e) {
             System.out.println(e + "/nSomething went wrong on line 77");
         }
     }
     
-    private static String maul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username) {
+    private static String maul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, int byteNum) {
         Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
         
@@ -98,7 +100,7 @@ public class assignment3 {
        
         try {
             for (int i = -128; i < 127 ; i++) { 
-                c2[17] = (byte) i;
+                c2[byteNum] = (byte) i;
                                           
                 String c2base64String = new String(encoder.encode(c2));
                 String combined = c1base64 + " " + c2base64String;
@@ -128,6 +130,21 @@ public class assignment3 {
         return "";
     }
     
+    private static void retroDecrypt(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username) {
+        Base64.Decoder decoder = Base64.getDecoder();
+        String encryptedMessage = messageData.getString("message");
+        String[] message = encryptedMessage.split(" ");
+        
+        byte[] c2 = decoder.decode(message[1]);
+        int blocks = (int) Math.ceil(c2.length / 16.0 - 1);
+        byte[] cipherPad = new byte[16];
+        String number = maul(keys, messageData, serverURL, port, username, c2.length-1);
+        int val = Integer.parseInt(number) ^ 1;
+        byte value = (byte)((int) c2[c2.length-1] ^ val);
+        System.out.println(value);
+        
+       
+    }
     private static String recreateMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, String number) {
         Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
@@ -165,17 +182,7 @@ public class assignment3 {
         }
    }
     
-    private static void getFingerPrint(String serverURL, String port, String username)throws NoSuchAlgorithmException, NoSuchProviderException, IOException {
-        //Get the utf8 encoded key string
-        String keyString = getUserKeys(serverURL, port, username);
-        
-        //Use sha256 to hash the key string
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hashedKeys = digest.digest(keyString.getBytes());
-        for (int i = 0; i < 32; i++) {
-            System.out.print(String.format("%02x", hashedKeys[i]) + " ");
-        }
-    }
+
     private static void composeMessage(String serverURL,String port, String username, String otherUser, String message) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
         //Open the connection to the server
         serverURL = "http://" + serverURL + ":" + port;
@@ -342,37 +349,6 @@ public class assignment3 {
         reader.close();
        
         return userKeys.getString("keyData");
-    }
-    
-    private static void getAllUsers(String serverURL, String port) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
-        //Open the connection to the server
-        serverURL = "http://" + serverURL + ":" + port;
-        serverURL += "/lookupUsers";
-        URL url = new URL(serverURL);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Accept", "application/json");
-
-        //Get all the usernames
-        BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String users;
-        users = input.readLine();
-        input.close();
-        
-        //Create Json object from the json esque string
-        JsonReader reader = Json.createReader(new StringReader(users));
-        JsonObject allUsers = reader.readObject();
-        reader.close();
-        
-        //Print all the users from the json object
-        int numUsers = allUsers.getInt("numUsers");
-        JsonArray userJsonArray = allUsers.getJsonArray("users");
-        for (int i = 0; i < numUsers; i++) {
-            System.out.println(i + ":" + userJsonArray.get(i));
-        }
-        System.out.println();
     }
     
     private static JsonObject getOneMessage(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
