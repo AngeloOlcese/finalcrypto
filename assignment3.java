@@ -142,9 +142,9 @@ public class assignment3 {
         for (int i = 1; i <= 16; i ++) {
             String number = maul(keys, messageData, serverURL, port, username, c2.length-i);
             int val = Integer.parseInt(number) ^ i;
-            cipherPad[c2.length-i] = (byte) val;
+            cipherPad[16-i] = (byte) val;
             for (int j = 1; j <= i; j++) {
-                String neededVal = String.valueOf((int)cipherPad[c2.length-j] ^ i); 
+                String neededVal = String.valueOf((int)cipherPad[16-j] ^ i); 
                 messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - j);
             }
         }
