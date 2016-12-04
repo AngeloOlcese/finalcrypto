@@ -144,7 +144,7 @@ public class assignment3 {
             int val = Integer.parseInt(number) ^ i;
             cipherPad[16-i] = (byte) val;
             for (int j = 1; j <= i; j++) {
-                String neededVal = String.valueOf((int)cipherPad[16-j] ^ i); 
+                String neededVal = String.valueOf((int)cipherPad[16-j] ^ (i + 1)); 
                 messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - j);
             }
         }
