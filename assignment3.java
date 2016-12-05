@@ -122,8 +122,10 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", username, objString);               
             }   
-            Thread.sleep(10000);
             String number = getAllMessages(keys, serverURL, port, "a");
+            while (number == ""){
+                number = getAllMessages(keys, serverURL, port, "a");
+            }
             return number;
         } catch (Exception e) {
             System.out.println(e);
