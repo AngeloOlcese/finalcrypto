@@ -142,8 +142,7 @@ public class assignment3 {
         JsonObject data = messageData;
         for (int i = 1; i <= 16; i ++) {
             String number = maul(keys, data, serverURL, port, username, c2.length-i);
-            int n = Integer.parseInt(number);
-            byte val = (byte)((byte)n ^ ((byte)i));
+            byte val = (byte)((byte)Integer.parseInt(number) ^ (byte)i);
             cipherPad[16-i] = val;
             System.out.println("pad value: " + val);
             byte value = (byte)((byte)c2[c2.length-i] ^ (byte)val);
