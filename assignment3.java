@@ -145,18 +145,15 @@ public class assignment3 {
         for (int i = 1; i <= 16; i ++) {
             String number = maul(keys, data, serverURL, port, username, c2.length-i);
             byte val;
-            if (i == 1) {
-                val = ((byte)Integer.parseInt(number));
-            } else {
-                 val = (byte)(((byte)Integer.parseInt(number)) ^ ((byte)i));
-            }
+            val = ((byte)Integer.parseInt(number));
             cipherPad[16-i] = val;
             byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
             System.out.println("This plaintext byte value is: " + value);
-            for (int j = 1; j <= i; j++) {
+            /*for (int j = 1; j <= i; j++) {
                 String neededVal = String.valueOf((byte) cipherPad[16-j] ^ ((byte)(i+1))); 
                 data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
-            }
+            }*/
+            data = shaveOffByte(data, username);
             try {
                 clearAllMessages(keys, serverURL, port, "a");
             } catch (Exception e) {
@@ -168,6 +165,7 @@ public class assignment3 {
         System.out.println(new String(XorRA(lastBlock, cipherPad, 16)));
        
     }
+    
     private static JsonObject recreateMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, String number, int byteNum) {
         Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
@@ -203,6 +201,30 @@ public class assignment3 {
             return null;
         }
    }
+   
+    private static JsonObject shaveOffByte(JsonObject messageData, String username) {
+        Base64.Decoder decoder = Base64.getDecoder();
+        Base64.Encoder encoder = Base64.getEncoder();
+        
+        String encryptedMessage = messageData.getString("message");
+        String[] message = encryptedMessage.split(" ");
+        
+        //Split the message into its parts and decode
+        String c1base64 = message[0];
+        String c2base64String = message[1];
+        String sigma = message[2];
+        byte[] c2 = decoder.decode(message[1]);
+       
+        c2 = Arrays.copyOfRange(c2, 0, c2.length-1);                
+        c2base64String = new String(encoder.encode(c2));
+        String combined = c1base64 + " " + c2base64String;
+            
+        String output = combined + " " + sigma;
+        
+        JsonBuilderFactory factory = Json.createBuilderFactory(null);
+        JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", messageData.getString("messageID")).add("message", output).build();
+        return obj;
+    }
     
 
     private static void composeMessage(String serverURL,String port, String username, String otherUser, String message) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
