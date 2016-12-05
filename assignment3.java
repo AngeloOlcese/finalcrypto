@@ -155,7 +155,7 @@ public class assignment3 {
                 data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
             }
             try {
-                getAllMessages(keys, serverURL, port, "a");
+                clearAllMessages(keys, serverURL, port, "a");
             } catch (Exception e) {
                 System.out.println("Didnt clear inbox");
             }
@@ -446,6 +446,23 @@ public class assignment3 {
         return "";
     }
 
+    private static void clearAllMessages(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
+        String origURL = serverURL;
+        //Open the connection to the server
+        serverURL = "http://" + serverURL + ":" + port;
+        serverURL += "/getMessages/" + username;
+        URL url = new URL(serverURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+
+        //Get all the messages
+        BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String messages = input.readLine();
+        input.close();
+    }
 
     private static String decrypt(KeyPair[] keys, String username, String serverURL, String port, JsonObject messageData) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException {
         Base64.Decoder decoder = Base64.getDecoder();
