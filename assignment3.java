@@ -460,6 +460,14 @@ public class assignment3 {
         BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String messages = input.readLine();
         input.close();
+        
+        //Create Json object from the json esque string
+        JsonReader reader = Json.createReader(new StringReader(messages));
+        JsonObject allMessages = reader.readObject();
+        reader.close();
+        
+        int numMessages = allMessages.getInt("numMessages");
+        JsonArray messageMeta = allMessages.getJsonArray("messages");
     }
 
     private static String decrypt(KeyPair[] keys, String username, String serverURL, String port, JsonObject messageData) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException {
