@@ -140,20 +140,20 @@ public class assignment3 {
         int blocks = (int) Math.ceil(c2.length / 16.0 - 1);
         byte[] cipherPad = new byte[16];
         JsonObject data = messageData;
-        /*for (int i = 1; i <= 16; i ++) {
+        for (int i = 1; i <= 16; i ++) {
             String number = maul(keys, data, serverURL, port, username, c2.length-i);
-            
-            int val = Integer.parseInt(number) ^ i;
-            cipherPad[16-i] = (byte) val;
+            int n = Integer.parseInt(number);
+            byte val = (byte)((byte)n ^ ((byte)i));
+            cipherPad[16-i] = val;
             System.out.println("pad value: " + val);
-            byte value = (byte)((int) c2[c2.length-i] ^ val);
+            byte value = (byte)((byte)c2[c2.length-i] ^ (byte)val);
             System.out.println("This plaintext byte value is: " + value);
             for (int j = 1; j <= i; j++) {
-                String neededVal = String.valueOf((int)cipherPad[16-j] ^ i); 
+                String neededVal = String.valueOf((byte)cipherPad[16-j] ^ (byte)i); 
                 data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
             }
-        }*/
-        String number = maul(keys, data, serverURL, port, username, c2.length-1);
+        }
+        /*String number = maul(keys, data, serverURL, port, username, c2.length-1);
         byte val = (byte)((byte)Integer.parseInt(number) ^ (byte)1);
         cipherPad[16-1] = val;
         System.out.println("pad value: " + val);
@@ -170,7 +170,7 @@ public class assignment3 {
         cipherPad[16-2] = (byte) val;
         System.out.println("pad value: " + val);
         value = (byte)((byte) c2[c2.length-2] ^ (byte)val);
-        System.out.println("This plaintext byte value is: " + value);
+        System.out.println("This plaintext byte value is: " + value);*/
 
 
         
