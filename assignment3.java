@@ -144,12 +144,7 @@ public class assignment3 {
         JsonObject data = messageData;
         for (int i = 1; i <= 16; i ++) {
             String number = maul(keys, data, serverURL, port, username, c2.length-i);
-            byte val;
-            if ( i == 1) {
-                val = ((byte)Integer.parseInt(number));
-            } else {
-                val = (byte)(((byte)Integer.parseInt(number)) ^ ((byte)i));
-            }
+            byte val = (byte)(((byte)Integer.parseInt(number)) ^ ((byte)i));
             cipherPad[16-i] = val;
             byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
             System.out.println("This plaintext byte value is: " + value);
