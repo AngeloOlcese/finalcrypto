@@ -175,7 +175,7 @@ public class assignment3 {
         System.out.println("This plaintext byte value is: " + value);*/
 
 
-        
+        c2 = decoder.decode(message[1]);
         byte[] lastBlock = Arrays.copyOfRange(c2, c2.length-16, c2.length);
         System.out.println(new String(XorRA(lastBlock, cipherPad, 16)));
        
