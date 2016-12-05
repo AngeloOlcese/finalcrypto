@@ -144,14 +144,14 @@ public class assignment3 {
         JsonObject data = messageData;
         for (int i = 1; i <= 16; i ++) {
             String number = maul(keys, data, serverURL, port, username, c2.length-i);
-            byte val = (byte)((byte)Integer.parseInt(number) ^ (byte)i);
+            byte val = (byte)((byte)Integer.parseInt(number) ^ ((byte)i));
             cipherPad[16-i] = val;
             System.out.println("pad value: " + val);
             System.out.println((byte)c2[c2.length-i]);
             byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
             System.out.println("This plaintext byte value is: " + value);
             for (int j = 1; j <= i; j++) {
-                String neededVal = String.valueOf((byte)cipherPad[16-j] ^ (byte)(i+1)); 
+                String neededVal = String.valueOf((byte) cipherPad[16-j] ^ ((byte)(i+1))); 
                 data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
             }
             try {
