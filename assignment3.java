@@ -159,27 +159,7 @@ public class assignment3 {
             } catch (Exception e) {
             }
         }
-        /*String number = maul(keys, data, serverURL, port, username, c2.length-1);
-        byte val = (byte)((byte)Integer.parseInt(number) ^ (byte)1);
-        cipherPad[16-1] = val;
-        System.out.println("pad value: " + val);
-        byte value = (byte)((byte) c2[c2.length-1] ^ (byte)val);
-        System.out.println("This plaintext byte value is: " + value);
-        
-        String neededVal = String.valueOf((byte)((byte)cipherPad[15] ^ (byte)2));
-        data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length-1);
-        String m = data.getString("message");
-        System.out.println(neededVal);
-        System.out.println(decoder.decode(m.split(" ")[1])[c2.length-1]);
-        number = maul(keys, data, serverURL, port, username, c2.length-2);
-        val = (byte)((byte)Integer.parseInt(number) ^ (byte)2);
-        cipherPad[16-2] = (byte) val;
-        System.out.println("pad value: " + val);
-        value = (byte)((byte) c2[c2.length-2] ^ (byte)val);
-        System.out.println("This plaintext byte value is: " + value);*/
 
-
-        c2 = decoder.decode(message[1]);
         byte[] lastBlock = Arrays.copyOfRange(c2, c2.length-16, c2.length);
         System.out.println(new String(XorRA(lastBlock, cipherPad, 16)));
        
