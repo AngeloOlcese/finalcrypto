@@ -139,7 +139,6 @@ public class assignment3 {
         String[] message = encryptedMessage.split(" ");
         
         byte[] c2 = decoder.decode(message[1]);
-        c2[c2.length -2] = 0;
         int blocks = (int) Math.ceil(c2.length / 16.0 - 1);
         byte[] cipherPad = new byte[16];
         JsonObject data = messageData;
@@ -156,7 +155,7 @@ public class assignment3 {
                 data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
             }
             try {
-                clearAllMessages(keys, serverURL, port, "a");
+                //clearAllMessages(keys, serverURL, port, "a");
             } catch (Exception e) {
                 System.out.println("Didnt clear inbox");
             }
