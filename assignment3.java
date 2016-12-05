@@ -140,13 +140,13 @@ public class assignment3 {
         
         byte[] c2 = decoder.decode(message[1]);
         int blocks = (int) Math.ceil(c2.length / 16.0 - 1);
-        byte[] cipherPad = new byte[c2.length];
+        byte[] cipherPad = new byte[16];
         JsonObject data = messageData;
-        for (int i = 1; i <= 30 /*c2.length*/; i ++) {
+        for (int i = 1; i <= 16; i ++) {
             String number = maul(keys, data, serverURL, port, username, c2.length-i);
             byte val;
             val = ((byte)Integer.parseInt(number));
-            cipherPad[30-i] = val;
+            cipherPad[16-i] = val;
             byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
             //System.out.println("This plaintext byte value is: " + value);
             /*for (int j = 1; j <= i; j++) {
@@ -161,8 +161,8 @@ public class assignment3 {
             }
         }
 
-        byte[] lastBlock = Arrays.copyOfRange(c2, 0,30 /*c2.length*/);
-        System.out.println(new String(XorRA(lastBlock, cipherPad, 30/*c2.length*/)));
+        byte[] lastBlock = Arrays.copyOfRange(c2, c2.length - 16, c2.length);
+        System.out.println(new String(XorRA(lastBlock, cipherPad, 16)));
        
     }
     
