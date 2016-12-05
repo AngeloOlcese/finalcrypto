@@ -144,6 +144,11 @@ public class assignment3 {
         byte[] cipherPad = new byte[16];
         JsonObject data = messageData;
         for (int i = 1; i <= 16; i ++) {
+            try {
+                clearAllMessages(keys, serverURL, port, "a");
+            } catch (Exception e) {
+                System.out.println("Didnt clear inbox");
+            }
             String number = maul(keys, data, serverURL, port, username, c2.length-i);
             byte val;
             val = ((byte)Integer.parseInt(number));
