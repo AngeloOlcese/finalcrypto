@@ -154,6 +154,10 @@ public class assignment3 {
                 String neededVal = String.valueOf((byte)cipherPad[16-j] ^ (byte)(i+1)); 
                 data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
             }
+            try {
+                getAllMessages(keys, serverURL, port, "a");
+            } catch (Exception e) {
+            }
         }
         /*String number = maul(keys, data, serverURL, port, username, c2.length-1);
         byte val = (byte)((byte)Integer.parseInt(number) ^ (byte)1);
