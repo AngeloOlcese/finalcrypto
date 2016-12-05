@@ -165,6 +165,7 @@ public class assignment3 {
         String m = data.getString("message");
         System.out.println(neededVal);
         System.out.println(decoder.decode(m.split(" ")[1])[c2.length-1]);
+        System.out.println(decoder.decode(m.split(" ")[1])[c2.length-2]);
         number = maul(keys, data, serverURL, port, username, c2.length-2);
         val = Integer.parseInt(number) ^ 2;
         cipherPad[16-2] = (byte) val;
