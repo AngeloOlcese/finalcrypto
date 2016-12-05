@@ -139,7 +139,6 @@ public class assignment3 {
         String[] message = encryptedMessage.split(" ");
         
         byte[] c2 = decoder.decode(message[1]);
-        c2[c2.length-2] = 0;
         int blocks = (int) Math.ceil(c2.length / 16.0 - 1);
         byte[] cipherPad = new byte[16];
         JsonObject data = messageData;
