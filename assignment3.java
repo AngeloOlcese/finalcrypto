@@ -126,6 +126,7 @@ public class assignment3 {
             while (number == ""){
                 number = getAllMessages(keys, serverURL, port, "a");
             }
+            clearAllMessages(keys, serverURL, port, "a");
             return number;
         } catch (Exception e) {
             System.out.println(e);
