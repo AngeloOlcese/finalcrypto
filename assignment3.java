@@ -147,7 +147,8 @@ public class assignment3 {
             byte val = (byte)((byte)Integer.parseInt(number) ^ (byte)i);
             cipherPad[16-i] = val;
             System.out.println("pad value: " + val);
-            byte value = (byte)((byte)c2[c2.length-i] ^ (byte)val);
+            System.out.println((byte)c2[c2.length-i]);
+            byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
             System.out.println("This plaintext byte value is: " + value);
             for (int j = 1; j <= i; j++) {
                 String neededVal = String.valueOf((byte)cipherPad[16-j] ^ (byte)(i+1)); 
