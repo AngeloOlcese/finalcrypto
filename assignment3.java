@@ -146,7 +146,7 @@ public class assignment3 {
             String number = maul(keys, data, serverURL, port, username, c2.length-i);
             byte val;
             val = ((byte)Integer.parseInt(number));
-            cipherPad[16-i] = val;
+            cipherPad[30-i] = val;
             byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
             //System.out.println("This plaintext byte value is: " + value);
             /*for (int j = 1; j <= i; j++) {
