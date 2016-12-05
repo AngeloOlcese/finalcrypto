@@ -142,7 +142,7 @@ public class assignment3 {
         int blocks = (int) Math.ceil(c2.length / 16.0 - 1);
         byte[] cipherPad = new byte[c2.length];
         JsonObject data = messageData;
-        for (int i = 1; i <= c2.length; i ++) {
+        for (int i = 1; i <= 30 /*c2.length*/; i ++) {
             String number = maul(keys, data, serverURL, port, username, c2.length-i);
             byte val;
             val = ((byte)Integer.parseInt(number));
@@ -161,8 +161,8 @@ public class assignment3 {
             }
         }
 
-        byte[] lastBlock = Arrays.copyOfRange(c2, 0, c2.length);
-        System.out.println(new String(XorRA(lastBlock, cipherPad, c2.length)));
+        byte[] lastBlock = Arrays.copyOfRange(c2, 0,30 /*c2.length*/);
+        System.out.println(new String(XorRA(lastBlock, cipherPad, 30/*c2.length*/)));
        
     }
     
