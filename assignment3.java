@@ -157,6 +157,7 @@ public class assignment3 {
             try {
                 getAllMessages(keys, serverURL, port, "a");
             } catch (Exception e) {
+                System.out.println("Didnt clear inbox");
             }
         }
 
