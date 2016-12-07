@@ -147,7 +147,7 @@ public class assignment3 {
             if (i == 2) {
                 Thread.sleep(10000);
                 clearAllMessages(keys, serverURL, port, "a");
-                oneMaul(keys, data, serverURL, port, username, c2.length-i);
+                oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);
                 while (number == ""){
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
@@ -183,7 +183,7 @@ public class assignment3 {
        
     }
     
-    private static void oneMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, int byteNum) {
+    private static void oneMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, int byteNum, byte[] cipherPad) {
         Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
         
@@ -197,7 +197,9 @@ public class assignment3 {
         try {
             for (int j = 0; j < 2; j++) {
                 if (j == 1) {
-                    c2[c2.length - 1] = (byte)((byte)c2[c2.length - 1] ^ ((byte)1));
+                    c2[c2.length - 1] = (byte)((byte)c2[c2.length - 1] ^ ((byte)1));    
+                    String neededVal = String.valueOf((byte) cipherPad[16-j] ^ ((byte)(3))); 
+                    messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - j);
                 }
                 for (int i = -128; i < 128 ; i++) { 
                     System.out.println(i);
