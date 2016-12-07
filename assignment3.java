@@ -143,7 +143,7 @@ public class assignment3 {
         JsonObject data = messageData;
         for (int i = 1; i <= 16; i ++) {
             try {
-                clearAllMessages(keys, serverURL, port, "a");
+            clearAllMessages(keys, serverURL, port, "a");
             String number;
             if (i == 2) {
                 maul(keys, data, serverURL, port, username, c2.length-i);
@@ -153,6 +153,9 @@ public class assignment3 {
                 }
                 maul(keys, data, serverURL, port, username, c2.length-i);
                 number = getAllMessages(keys, serverURL, port, "a");
+                while (number == ""){
+                    number = getAllMessages(keys, serverURL, port, "a");
+                }
             } else {
                 maul(keys, data, serverURL, port, username, c2.length-i);
                 number = getAllMessages(keys, serverURL, port, "a");
@@ -160,7 +163,6 @@ public class assignment3 {
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
             }
-            clearAllMessages(keys, serverURL, port, "a");
             byte val;
             val = (byte)((byte)Integer.parseInt(number) * (byte)i);
             cipherPad[16-i] = val;
