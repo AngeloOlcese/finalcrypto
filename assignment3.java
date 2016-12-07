@@ -198,7 +198,7 @@ public class assignment3 {
         try {
             for (int j = 0; j < 2; j++) {
                 if (j == 1) {
-                    c2[byteNum+1] = (byte)(c2[byteNum+1] ^ (byte)1);
+                    c2[byteNum+1] = (byte)((byte)c2[byteNum+1] ^ (byte)1);
                 }
                 for (int i = -128; i < 127 ; i++) { 
                     c2[byteNum] = (byte) i;
