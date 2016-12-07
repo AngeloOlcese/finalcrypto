@@ -78,7 +78,12 @@ public class assignment3 {
             System.out.println("Part 1: Message from Alice to Bob");
             System.out.println(encryptedMessage);
             System.out.println("Part 2: Maul the message and keep sending until we encounter a read recipt");
-            String number = maul(keys, encryptedMessage, serverURL, port, username, 17);
+            maul(keys, encryptedMessage, serverURL, port, username, 17);
+            String number = getAllMessages(keys, serverURL, port, "a");
+            while (number == ""){
+                number = getAllMessages(keys, serverURL, port, "a");
+            }
+            clearAllMessages(keys, serverURL, port, "a");
             System.out.println("Here is the altered message we sent:");
             JsonObject newMessage = recreateMaul(keys, encryptedMessage, serverURL, port, username, number, 17);
             System.out.println(newMessage.toString());
@@ -88,7 +93,7 @@ public class assignment3 {
         }
     }
     
-    private static String maul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, int byteNum) {
+    private static void maul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, int byteNum) {
         Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
         
@@ -122,16 +127,9 @@ public class assignment3 {
         
                 composeMessage(serverURL, port, "a", username, objString);               
             }   
-            String number = getAllMessages(keys, serverURL, port, "a");
-            while (number == ""){
-                number = getAllMessages(keys, serverURL, port, "a");
-            }
-            clearAllMessages(keys, serverURL, port, "a");
-            return number;
         } catch (Exception e) {
             System.out.println(e);
         }
-        return "";
     }
     
     private static void retroDecrypt(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username) {
@@ -145,19 +143,35 @@ public class assignment3 {
         JsonObject data = messageData;
         for (int i = 1; i <= 16; i ++) {
             try {
-                getAllMessages(keys, serverURL, port, "a");
-            } catch (Exception e) {
-                System.out.println("Didnt clear inbox");
+                clearAllMessages(keys, serverURL, port, "a");
+            String number;
+            if (i == 2) {
+                maul(keys, data, serverURL, port, username, c2.length-i);
+                number = getAllMessages(keys, serverURL, port, "a");
+                if (number == ""){
+                    cipherPad[c2.length -1] = (byte)(cipherPad[c2.length-1] * (byte)1);
+                }
+                maul(keys, data, serverURL, port, username, c2.length-i);
+                number = getAllMessages(keys, serverURL, port, "a");
+            } else {
+                maul(keys, data, serverURL, port, username, c2.length-i);
+                number = getAllMessages(keys, serverURL, port, "a");
+                while (number == ""){
+                    number = getAllMessages(keys, serverURL, port, "a");
+                }
             }
-            String number = maul(keys, data, serverURL, port, username, c2.length-i);
+            clearAllMessages(keys, serverURL, port, "a");
             byte val;
-            val = ((byte)Integer.parseInt(number));
+            val = (byte)((byte)Integer.parseInt(number) * (byte)i);
             cipherPad[16-i] = val;
             byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
             System.out.println("This plaintext byte value is: " + value);
             for (int j = 1; j <= i; j++) {
                 String neededVal = String.valueOf((byte) cipherPad[16-j] ^ ((byte)(i+1))); 
                 data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
+            }
+            } catch (Exception e) {
+                System.out.println("Didnt clear inbox");
             }
         }
 
