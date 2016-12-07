@@ -147,7 +147,9 @@ public class assignment3 {
             if (i == 2) {
                 Thread.sleep(10000);
                 clearAllMessages(keys, serverURL, port, "a");
+                System.out.println("hello");
                 oneMaul(keys, data, serverURL, port, username, c2.length-i);
+                System.out.println("hello");
                 while (number == ""){
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
