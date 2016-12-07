@@ -105,7 +105,7 @@ public class assignment3 {
         byte[] c2 = decoder.decode(message[1]);
        
         try {
-            for (int i = -128; i < 127 ; i++) { 
+            for (int i = -128; i < 128 ; i++) { 
                 c2[byteNum] = (byte) i;
                                           
                 String c2base64String = new String(encoder.encode(c2));
@@ -155,6 +155,7 @@ public class assignment3 {
                 if (number.substring(0, 1) == "1") {
                     cipherPad[16] = (byte)(cipherPad[16] ^ (byte) 1);
                 }
+                number = number.substring(1,number.length());
             } else {
                 clearAllMessages(keys, serverURL, port, "a");
                 maul(keys, data, serverURL, port, username, c2.length-i);
@@ -198,8 +199,7 @@ public class assignment3 {
                 if (j == 1) {
                     c2[c2.length - 1] = (byte)((byte)c2[c2.length - 1] ^ ((byte)1));
                 }
-                for (int i = -128; i < 127 ; i++) { 
-                    System.out.println(i);
+                for (int i = -128; i < 128 ; i++) { 
                     c2[byteNum] = (byte) i;
                                               
                     String c2base64String = new String(encoder.encode(c2));
