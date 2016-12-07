@@ -148,11 +148,6 @@ public class assignment3 {
             if (i == 2) {
                 maul(keys, data, serverURL, port, username, c2.length-i);
                 number = getAllMessages(keys, serverURL, port, "a");
-                if (number == ""){
-                    cipherPad[c2.length -1] = (byte)(cipherPad[c2.length-1] * (byte)1);
-                }
-                maul(keys, data, serverURL, port, username, c2.length-i);
-                number = getAllMessages(keys, serverURL, port, "a");
                 while (number == ""){
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
