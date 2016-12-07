@@ -200,6 +200,7 @@ public class assignment3 {
                     c2[c2.length - 1] = (byte)((byte)c2[c2.length - 1] ^ ((byte)1));
                 }
                 for (int i = -128; i < 128 ; i++) { 
+                    System.out.println(i);
                     c2[byteNum] = (byte) i;
                                               
                     String c2base64String = new String(encoder.encode(c2));
