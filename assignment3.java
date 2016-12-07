@@ -143,15 +143,19 @@ public class assignment3 {
         JsonObject data = messageData;
         for (int i = 1; i <= 16; i ++) {
             try {
-            clearAllMessages(keys, serverURL, port, "a");
-            String number;
+            String number = "";
             if (i == 2) {
-                maul(keys, data, serverURL, port, username, c2.length-i);
-                number = getAllMessages(keys, serverURL, port, "a");
+                Thread.sleep(10000);
+                clearAllMessages(keys, serverURL, port, "a");
+                oneMaul(keys, data, serverURL, port, username, c2.length-i);
                 while (number == ""){
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
+                if (number.substring(0, 1) == "1") {
+                    cipherPad[16] = (byte)(cipherPad[16] ^ (byte) 1);
+                }
             } else {
+                clearAllMessages(keys, serverURL, port, "a");
                 maul(keys, data, serverURL, port, username, c2.length-i);
                 number = getAllMessages(keys, serverURL, port, "a");
                 while (number == ""){
@@ -176,6 +180,51 @@ public class assignment3 {
         System.out.println(new String(XorRA(lastBlock, cipherPad, 16)));
        
     }
+    
+    private static void oneMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, int byteNum) {
+        Base64.Decoder decoder = Base64.getDecoder();
+        Base64.Encoder encoder = Base64.getEncoder();
+        
+        String encryptedMessage = messageData.getString("message");
+        String[] message = encryptedMessage.split(" ");
+        
+        //Split the message into its parts and decode
+        String c1base64 = message[0];
+        byte[] c2 = decoder.decode(message[1]);
+       
+        try {
+            for (int j = 0; j < 2; j++) {
+                if (j == 1) {
+                    c2[c2.length-1] = (byte)(c2[c2.length-1] ^ (byte)1);
+                }
+                for (int i = -128; i < 127 ; i++) { 
+                    c2[byteNum] = (byte) i;
+                                              
+                    String c2base64String = new String(encoder.encode(c2));
+                    String combined = c1base64 + " " + c2base64String;
+                    
+                    Signature dsaSig = Signature.getInstance("DSA");
+                    dsaSig.initSign(keys[1].getPrivate());
+                    dsaSig.update(combined.getBytes());
+                    byte[] signature = encoder.encode(dsaSig.sign());
+                    
+                    //Final ciphertext
+                    String output = combined + " " + new String(signature);
+                    
+                    //Create JsonObject to send to server
+                    JsonBuilderFactory factory = Json.createBuilderFactory(null);
+                    String num = j + String.valueOf(i);
+                    JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
+                    String objString = obj.toString();
+            
+                    composeMessage(serverURL, port, "a", username, objString);               
+                }   
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     
     private static JsonObject recreateMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, String number, int byteNum) {
         Base64.Decoder decoder = Base64.getDecoder();
