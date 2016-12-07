@@ -153,10 +153,10 @@ public class assignment3 {
                 while (number == ""){
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
+                System.out.println("hello");
                 if (number.substring(0, 1) == "1") {
                     cipherPad[16] = (byte)(cipherPad[16] ^ (byte) 1);
                 }
-                System.out.println("hello");
             } else {
                 clearAllMessages(keys, serverURL, port, "a");
                 maul(keys, data, serverURL, port, username, c2.length-i);
@@ -198,9 +198,10 @@ public class assignment3 {
         try {
             for (int j = 0; j < 2; j++) {
                 if (j == 1) {
-                    c2[byteNum+1] = (byte)((byte)c2[byteNum+1] ^ (byte)1);
+                    c2[15] = (byte)((byte)c2[15] ^ ((byte)1));
                 }
                 for (int i = -128; i < 127 ; i++) { 
+                    System.out.println(i);
                     c2[byteNum] = (byte) i;
                                               
                     String c2base64String = new String(encoder.encode(c2));
