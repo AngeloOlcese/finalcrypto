@@ -463,6 +463,7 @@ public class assignment3 {
         for (int i = 0; i < messageMeta.size(); i++) {
             reader = Json.createReader(new StringReader(messageMeta.get(i).toString()));
             JsonObject message = reader.readObject();
+            System.out.println(i + "\n" + message);
             try { 
                 String num = decrypt(keys, username, origURL, port, message);
                 if (num != "") {
