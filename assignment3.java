@@ -147,9 +147,7 @@ public class assignment3 {
             if (i == 2) {
                 Thread.sleep(10000);
                 clearAllMessages(keys, serverURL, port, "a");
-                System.out.println("hello");
                 oneMaul(keys, data, serverURL, port, username, c2.length-i);
-                System.out.println("hello");
                 while (number == ""){
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
@@ -198,7 +196,7 @@ public class assignment3 {
         try {
             for (int j = 0; j < 2; j++) {
                 if (j == 1) {
-                    c2[15] = (byte)((byte)c2[15] ^ ((byte)1));
+                    c2[c2.length - 1] = (byte)((byte)c2[c2.length - 1] ^ ((byte)1));
                 }
                 for (int i = -128; i < 127 ; i++) { 
                     System.out.println(i);
