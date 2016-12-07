@@ -171,7 +171,7 @@ public class assignment3 {
                 data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
             }
             } catch (Exception e) {
-                System.out.println("Didnt clear inbox");
+                System.out.println(e);
             }
         }
 
