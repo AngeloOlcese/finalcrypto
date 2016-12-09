@@ -154,7 +154,6 @@ public class assignment3 {
                     System.out.println("Hello");
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
-                
                 if (number.substring(0, 1) == "1") {
                     cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
                 }
