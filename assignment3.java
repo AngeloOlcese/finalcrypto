@@ -149,6 +149,7 @@ public class assignment3 {
                 clearAllMessages(keys, serverURL, port, "a");
                 oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);        
                 System.out.println("hello");
+                number = getAllMessages(keys, serverURL, port, "a");
                 while (number == ""){
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
