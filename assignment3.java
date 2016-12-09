@@ -144,7 +144,7 @@ public class assignment3 {
         for (int i = 1; i <= 16; i ++) {
             try {
                 String number = "";
-                if (i == 2) {
+                /*if (i == 2) {
                     Thread.sleep(10000);
                     clearAllMessages(keys, serverURL, port, "a");
                     oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);        
@@ -160,14 +160,14 @@ public class assignment3 {
                     System.out.println(number);
                     number = number.substring(1,number.length());          
                     System.out.println(number);
-                } else {
+                } else {*/
                     clearAllMessages(keys, serverURL, port, "a");
                     maul(keys, data, serverURL, port, username, c2.length-i);
                     number = getAllMessages(keys, serverURL, port, "a");
                     while (number == ""){
                         number = getAllMessages(keys, serverURL, port, "a");
                     }
-                }
+                //}
                 byte val;
                 val = (byte)((byte)Integer.parseInt(number) * (byte)i);
                 cipherPad[16-i] = val;
