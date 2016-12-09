@@ -147,7 +147,8 @@ public class assignment3 {
             if (i == 2) {
                 Thread.sleep(10000);
                 clearAllMessages(keys, serverURL, port, "a");
-                oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);
+                oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);        
+                System.out.println("hello");
                 while (number == ""){
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
@@ -195,7 +196,7 @@ public class assignment3 {
         byte[] c2 = decoder.decode(message[1]);
        
         try {
-            /*for (int j = 0; j < 2; j++) {
+            for (int j = 0; j < 2; j++) {
                 if (j == 1) {
                     String neededVal = String.valueOf((byte) cipherPad[16-j] ^ ((byte)(3))); 
                     messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - j);
@@ -204,9 +205,8 @@ public class assignment3 {
                     
                     //Split the message into its parts and decode
                     c2 = decoder.decode(message[1]);
-                }*/
+                }
                 for (int i = -128; i < 128 ; i++) { 
-                    System.out.println(i);
                     c2[byteNum] = (byte) i;
                                               
                     String c2base64String = new String(encoder.encode(c2));
@@ -228,7 +228,7 @@ public class assignment3 {
             
                     composeMessage(serverURL, port, "a", username, objString);               
                 }   
-            //}
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
