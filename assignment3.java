@@ -154,10 +154,11 @@ public class assignment3 {
                     System.out.println("Hello");
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
+                System.out.println("after while");
                 if (number.substring(0, 1) == "1") {
                     cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
                 }
-                System.out.println(number);
+                System.out.println("hello");
                 number = number.substring(1,number.length());
             } else {
                 clearAllMessages(keys, serverURL, port, "a");
