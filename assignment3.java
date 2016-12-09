@@ -148,15 +148,14 @@ public class assignment3 {
                 Thread.sleep(10000);
                 clearAllMessages(keys, serverURL, port, "a");
                 oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);        
-                System.out.println("hello");
                 number = getAllMessages(keys, serverURL, port, "a");
                 while (number == ""){
                     number = getAllMessages(keys, serverURL, port, "a");
                 }
-                System.out.println("hello");
                 if (number.substring(0, 1) == "1") {
                     cipherPad[16] = (byte)(cipherPad[16] ^ (byte) 1);
                 }
+                System.out.println(number);
                 number = number.substring(1,number.length());
             } else {
                 clearAllMessages(keys, serverURL, port, "a");
