@@ -143,40 +143,40 @@ public class assignment3 {
         JsonObject data = messageData;
         for (int i = 1; i <= 16; i ++) {
             try {
-            String number = "";
-            if (i == 2) {
-                Thread.sleep(10000);
-                clearAllMessages(keys, serverURL, port, "a");
-                oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);        
-                number = getAllMessages(keys, serverURL, port, "a");
-                System.out.println("Hello");
-                while (number == ""){
+                String number = "";
+                if (i == 2) {
+                    Thread.sleep(10000);
+                    clearAllMessages(keys, serverURL, port, "a");
+                    oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);        
+                    number = getAllMessages(keys, serverURL, port, "a");
                     System.out.println("Hello");
+                    while (number == ""){
+                        number = getAllMessages(keys, serverURL, port, "a");
+                    }
+                    System.out.println("after while");
+                    if (number.substring(0, 1) == "1") {
+                        cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
+                    }
+                    System.out.println(number);
+                    number = number.substring(1,number.length());          
+                    System.out.println(number);
+                } else {
+                    clearAllMessages(keys, serverURL, port, "a");
+                    maul(keys, data, serverURL, port, username, c2.length-i);
                     number = getAllMessages(keys, serverURL, port, "a");
+                    while (number == ""){
+                        number = getAllMessages(keys, serverURL, port, "a");
+                    }
                 }
-                System.out.println("after while");
-                if (number.substring(0, 1) == "1") {
-                    cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
+                byte val;
+                val = (byte)((byte)Integer.parseInt(number) * (byte)i);
+                cipherPad[16-i] = val;
+                byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
+                System.out.println("This plaintext byte value is: " + value);
+                for (int j = 1; j <= i; j++) {
+                    String neededVal = String.valueOf((byte) cipherPad[16-j] ^ ((byte)(i+1))); 
+                    data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
                 }
-                System.out.println("hello");
-                number = number.substring(1,number.length());
-            } else {
-                clearAllMessages(keys, serverURL, port, "a");
-                maul(keys, data, serverURL, port, username, c2.length-i);
-                number = getAllMessages(keys, serverURL, port, "a");
-                while (number == ""){
-                    number = getAllMessages(keys, serverURL, port, "a");
-                }
-            }
-            byte val;
-            val = (byte)((byte)Integer.parseInt(number) * (byte)i);
-            cipherPad[16-i] = val;
-            byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
-            System.out.println("This plaintext byte value is: " + value);
-            for (int j = 1; j <= i; j++) {
-                String neededVal = String.valueOf((byte) cipherPad[16-j] ^ ((byte)(i+1))); 
-                data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
-            }
             } catch (Exception e) {
                 System.out.println(e);
             }
