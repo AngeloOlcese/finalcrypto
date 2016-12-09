@@ -169,7 +169,7 @@ public class assignment3 {
                     }
                 }
                 byte val;
-                val = (byte)((byte)Integer.parseInt(number) * (byte)i);
+                val = (byte)((byte)Integer.parseInt(number) ^ (byte)i);
                 cipherPad[16-i] = val;
                 byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
                 System.out.println("This plaintext byte value is: " + value);
