@@ -197,7 +197,7 @@ public class assignment3 {
        
         try {
             for (int j = 0; j < 2; j++) {
-                /*if (j == 1) {
+                if (j == 1) {
                     String neededVal = String.valueOf((byte) cipherPad[16-j] ^ ((byte)(3))); 
                     messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - j);
                     encryptedMessage = messageData.getString("message");
@@ -205,7 +205,7 @@ public class assignment3 {
                     
                     //Split the message into its parts and decode
                     c2 = decoder.decode(message[1]);
-                }*/
+                }
                 for (int i = -128; i < 128 ; i++) { 
                     c2[byteNum] = (byte) i;
                                               
