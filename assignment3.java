@@ -154,7 +154,7 @@ public class assignment3 {
                         number = getAllMessages(keys, serverURL, port, "a");
                     }
                     System.out.println("after while");
-                    if (number.substring(0, 1) == "2") {
+                    if (number.substring(0, 1) == "1") {
                         cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
                     }
                     System.out.println(number);
@@ -225,7 +225,7 @@ public class assignment3 {
                     
                     //Create JsonObject to send to server
                     JsonBuilderFactory factory = Json.createBuilderFactory(null);
-                    String num = (j+1) + String.valueOf(i);
+                    String num = j + String.valueOf(i);
                     JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
                     String objString = obj.toString();
             
