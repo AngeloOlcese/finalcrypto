@@ -145,7 +145,7 @@ public class assignment3 {
             try {
                 String number = "";
                 if (i == 2) {
-                    Thread.sleep(10000);
+                    Thread.sleep(5000);
                     clearAllMessages(keys, serverURL, port, "a");
                     oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);        
                     number = getAllMessages(keys, serverURL, port, "a");
@@ -225,7 +225,7 @@ public class assignment3 {
                     
                     //Create JsonObject to send to server
                     JsonBuilderFactory factory = Json.createBuilderFactory(null);
-                    String num = /*j +*/ String.valueOf(i);
+                    String num = j + String.valueOf(i);
                     JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
                     String objString = obj.toString();
             
