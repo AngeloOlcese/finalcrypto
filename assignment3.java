@@ -156,9 +156,10 @@ public class assignment3 {
                     System.out.println("after while");
                     if (number.substring(0, 1) == "1") {
                         cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
-                    }
-                    System.out.println(number);
-                    number = number.substring(1,number.length());          
+                        
+                        System.out.println(number);
+                        number = number.substring(1,number.length());
+                    }       
                     System.out.println(number);
                 } else {
                     clearAllMessages(keys, serverURL, port, "a");
