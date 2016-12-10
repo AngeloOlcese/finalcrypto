@@ -203,7 +203,7 @@ public class assignment3 {
             for (int j = 0; j < 2; j++) {
                 if (j == 1) {
                     String neededVal = String.valueOf((byte) cipherPad[15] ^ ((byte)(3))); 
-                    messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - j);
+                    messageData = recreateMaul(keys, messageData, serverURL, port, username, neededVal, c2.length - 1);
                     encryptedMessage = messageData.getString("message");
                     message = encryptedMessage.split(" ");
                     
@@ -226,7 +226,10 @@ public class assignment3 {
                     
                     //Create JsonObject to send to server
                     JsonBuilderFactory factory = Json.createBuilderFactory(null);
-                    String num = j + String.valueOf(i);
+                    String num = String.valueOf(i);
+                    if (j == 1) {
+                        num +=  "222";
+                    }
                     JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
                     String objString = obj.toString();
             
