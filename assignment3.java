@@ -138,7 +138,7 @@ public class assignment3 {
         String[] message = encryptedMessage.split(" ");
         
         byte[] c2 = decoder.decode(message[1]);
-        int blocks = (int) Math.ceil(c2.length / 16.0 - 1);
+        int blocks = c2.length / 16;
         byte[] cipherPad = new byte[16];
         JsonObject data = messageData;
         for (int i = 1; i <= 16; i ++) {
@@ -472,13 +472,20 @@ public class assignment3 {
         int numMessages = allMessages.getInt("numMessages");
         JsonArray messageMeta = allMessages.getJsonArray("messages");
         
-        if (numMessages > 0) {
-            reader = Json.createReader(new StringReader(messageMeta.get(0).toString()));
-            JsonObject messageData = reader.readObject();
-            return messageData;            
-        } else {
-            return null;
+         for (int i = 0; i < messageMeta.size(); i++) {
+            reader = Json.createReader(new StringReader(messageMeta.get(i).toString()));
+            JsonObject message = reader.readObject();
+            
+            Base64.Decoder decoder = Base64.getDecoder();
+            String encryptedMessage = message.getString("message");
+            String[] encmessage = encryptedMessage.split(" ");
+            
+            byte[] c2 = decoder.decode(encmessage[1]);
+            if (c2.length < 50) {
+                return message;
+            }
         }
+        return null;
     }
     
     private static String getAllMessages(KeyPair[] keys, String serverURL, String port, String username) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, ProtocolException, MalformedURLException {
