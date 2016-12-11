@@ -138,54 +138,55 @@ public class assignment3 {
         String[] message = encryptedMessage.split(" ");
         
         byte[] c2 = decoder.decode(message[1]);
+        String wholeM = "";
         int blocks = c2.length / 16;
-        byte[] cipherPad = new byte[16];
         JsonObject data = messageData;
-        for (int i = 1; i <= 16; i ++) {
-            try {
-                String number = "";
-                if (i == 2) {
-                    Thread.sleep(5000);
-                    clearAllMessages(keys, serverURL, port, "a");
-                    oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);        
-                    number = getAllMessages(keys, serverURL, port, "a");
-                    System.out.println("Hello");
-                    while (number == ""){
+        for (int k = 0; k < blocks; k++) {    
+            byte[] cipherPad = new byte[16];
+            for (int i = 1; i <= 16; i ++) {
+                try {
+                    String number = "";
+                    if (i == 2) {
+                        Thread.sleep(5000);
+                        clearAllMessages(keys, serverURL, port, "a");
+                        oneMaul(keys, data, serverURL, port, username, c2.length-i, cipherPad);        
                         number = getAllMessages(keys, serverURL, port, "a");
-                    }
-                    System.out.println("after while");
-                    if (number.length() > 3) {
-                        cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
-                        
+                        while (number == ""){
+                            number = getAllMessages(keys, serverURL, port, "a");
+                        }
+                        if (number.length() > 3) {
+                            cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
+                            
+                            System.out.println(number);
+                            number = number.substring(3,number.length());
+                        }       
                         System.out.println(number);
-                        number = number.substring(3,number.length());
-                    }       
-                    System.out.println(number);
-                } else {
-                    clearAllMessages(keys, serverURL, port, "a");
-                    maul(keys, data, serverURL, port, username, c2.length-i);
-                    number = getAllMessages(keys, serverURL, port, "a");
-                    while (number == ""){
+                    } else {
+                        clearAllMessages(keys, serverURL, port, "a");
+                        maul(keys, data, serverURL, port, username, c2.length-i);
                         number = getAllMessages(keys, serverURL, port, "a");
+                        while (number == ""){
+                            number = getAllMessages(keys, serverURL, port, "a");
+                        }
                     }
+                    byte val;
+                    val = (byte)((byte)Integer.parseInt(number) ^ (byte)i);
+                    cipherPad[16-i] = val;
+                    byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
+                    System.out.println("This plaintext byte value is: " + value);
+                    for (int j = 1; j <= i; j++) {
+                        String neededVal = String.valueOf((byte) cipherPad[16-j] ^ ((byte)(i+1))); 
+                        data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
                 }
-                byte val;
-                val = (byte)((byte)Integer.parseInt(number) ^ (byte)i);
-                cipherPad[16-i] = val;
-                byte value = (byte)((byte)c2[c2.length-i] ^ ((byte)val));
-                System.out.println("This plaintext byte value is: " + value);
-                for (int j = 1; j <= i; j++) {
-                    String neededVal = String.valueOf((byte) cipherPad[16-j] ^ ((byte)(i+1))); 
-                    data = recreateMaul(keys, data, serverURL, port, username, neededVal, c2.length - j);
-                }
-            } catch (Exception e) {
-                System.out.println(e);
+                
+                byte[] lastBlock = Arrays.copyOfRange(c2, c2.length - 16, c2.length);
+                wholeM += new String(XorRA(lastBlock, cipherPad, 16));
+                System.out.println("Current message: " + wholeM);                   
             }
-        }
-
-        byte[] lastBlock = Arrays.copyOfRange(c2, c2.length - 16, c2.length);
-        System.out.println(new String(XorRA(lastBlock, cipherPad, 16)));
-       
+        }        
     }
     
     private static void oneMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, int byteNum, byte[] cipherPad) {
