@@ -138,6 +138,7 @@ public class assignment3 {
         String encryptedMessage = messageData.getString("message");
         String[] message = encryptedMessage.split(" ");
         byte[] c2 = decoder.decode(message[1]);
+        System.out.println("c2 size: " + c2.length);
         
         String wholeM = "";
         int blocks = c2.length / 16;
