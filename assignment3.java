@@ -87,9 +87,10 @@ public class assignment3 {
             System.out.println("Here is the altered message we sent:");
             JsonObject newMessage = recreateMaul(keys, encryptedMessage, serverURL, port, username, number, 17);
             System.out.println(newMessage.toString());
+            System.out.println("/nExecute a padding oracle attack"); 
             retroDecrypt(keys, newMessage, serverURL, port, username);
         } catch (Exception e) {
-            System.out.println(e + "/nSomething went wrong on line 77");
+            System.out.println(e + "/nSomething went wrong");
         }
     }
     
@@ -180,12 +181,11 @@ public class assignment3 {
                     }
                 } catch (Exception e) {
                     System.out.println(e);
-                }
-                
-                byte[] lastBlock = Arrays.copyOfRange(c2, c2.length - 16, c2.length);
-                wholeM += new String(XorRA(lastBlock, cipherPad, 16));
-                System.out.println("Current message: " + wholeM);                   
+                }                 
             }
+            byte[] lastBlock = Arrays.copyOfRange(c2, c2.length - 16, c2.length);
+            wholeM += new String(XorRA(lastBlock, cipherPad, 16));
+            System.out.println("Current message: " + wholeM);  
         }        
     }
     
