@@ -87,7 +87,7 @@ public class assignment3 {
             System.out.println("Here is the altered message we sent:");
             JsonObject newMessage = recreateMaul(keys, encryptedMessage, serverURL, port, username, number, 17);
             System.out.println(newMessage.toString());
-            System.out.println("/nExecute a padding oracle attack"); 
+            System.out.println("Execute a padding oracle attack"); 
             retroDecrypt(keys, newMessage, serverURL, port, username);
         } catch (Exception e) {
             System.out.println(e + "/nSomething went wrong");
@@ -482,7 +482,7 @@ public class assignment3 {
             String[] encmessage = encryptedMessage.split(" ");
             
             byte[] c2 = decoder.decode(encmessage[1]);
-            if (c2.length > 50) {
+            if (c2.length > 32) {
                 return message;
             }
         }
