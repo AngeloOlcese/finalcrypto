@@ -133,11 +133,16 @@ public class assignment3 {
         }
     }
     
-    private static void retroDecrypt(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username) {
+    private static void retroDecrypt(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username) {        
+        Base64.Encoder encoder = Base64.getEncoder();
         Base64.Decoder decoder = Base64.getDecoder();
+        
         String encryptedMessage = messageData.getString("message");
         String[] message = encryptedMessage.split(" ");
+        //Split the message into its parts and decode
+        String c1Base64 = message[0];
         byte[] c2 = decoder.decode(message[1]);
+        byte[] sigma = decoder.decode(message[2].getBytes());
         
         String wholeM = "";
         int blocks = c2.length / 16;
@@ -187,21 +192,22 @@ public class assignment3 {
             wholeM += new String(XorRA(lastBlock, cipherPad, 16));
             System.out.println("Current message: " + wholeM); 
             
-            /*String encryptedMessage = messageData.getString("message");
-            String[] message = encryptedMessage.split(" ");
-            byte[] c2 = decoder.decode(message[1]); */
+            data = shaveBlock(data);
+            encryptedMessage = data.getString("message");
+            message = encryptedMessage.split(" ");
+            c2 = decoder.decode(message[1]);
         }        
     }
     
     private static void oneMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, int byteNum, byte[] cipherPad) {
-        Base64.Decoder decoder = Base64.getDecoder();
         Base64.Encoder encoder = Base64.getEncoder();
+        Base64.Decoder decoder = Base64.getDecoder();
         
         String encryptedMessage = messageData.getString("message");
         String[] message = encryptedMessage.split(" ");
         
-        //Split the message into its parts and decode
-        String c1base64 = message[0];
+        //Split the message into its parts and decode      
+        String c1base64 = message[0];     
         byte[] c2 = decoder.decode(message[1]);
        
         try {
@@ -244,6 +250,28 @@ public class assignment3 {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+    
+    private static JsonObject shaveBlock(JsonObject messageData) {        
+        Base64.Encoder encoder = Base64.getEncoder();     
+        Base64.Decoder decoder = Base64.getDecoder();
+        
+        String encryptedMessage = messageData.getString("message");
+        String[] message = encryptedMessage.split(" ");
+        
+        //Split the message into its parts and decode
+        String c1base64 = message[0];     
+        byte[] c2 = decoder.decode(message[1]);
+        c2 = Arrays.copyOfRange(c2, 0, c2.length - 16);
+        String c2base64 = new String(encoder.encode(c2));
+        String sigma = message[2];
+        String combined = c1base64 + " " + c2base64 + " " + sigma;
+        
+        //Create JsonObject to send to server
+        JsonBuilderFactory factory = Json.createBuilderFactory(null);
+        JsonObject obj = Json.createObjectBuilder().add("recipient", messageData.getString("recipient")).add("messageID", "0").add("message", combined).build();
+
+        return obj;
     }
 
     
