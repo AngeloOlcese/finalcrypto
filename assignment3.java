@@ -164,7 +164,7 @@ public class assignment3 {
                             cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
                             
                             System.out.println(number);
-                            number = number.substring(3,number.length());
+                            number = number.substring(4,number.length());
                         }       
                         System.out.println(number);
                     } else {
