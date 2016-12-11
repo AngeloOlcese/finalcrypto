@@ -142,7 +142,7 @@ public class assignment3 {
         String wholeM = "";
         int blocks = c2.length / 16;
         JsonObject data = messageData;
-        for (int k = 0; k < blocks; k++) {    
+        //for (int k = 0; k < blocks; k++) {    
             byte[] cipherPad = new byte[16];
             for (int i = 1; i <= 16; i ++) {
                 try {
@@ -190,7 +190,7 @@ public class assignment3 {
             /*String encryptedMessage = messageData.getString("message");
             String[] message = encryptedMessage.split(" ");
             byte[] c2 = decoder.decode(message[1]); */
-        }        
+        //}        
     }
     
     private static void oneMaul(KeyPair[] keys, JsonObject messageData, String serverURL, String port, String username, int byteNum, byte[] cipherPad) {
