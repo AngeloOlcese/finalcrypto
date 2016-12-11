@@ -189,7 +189,7 @@ public class assignment3 {
                 }                 
             }
             byte[] lastBlock = Arrays.copyOfRange(c2, c2.length - 16, c2.length);
-            wholeM += new String(XorRA(lastBlock, cipherPad, 16));
+            wholeM = new String(XorRA(lastBlock, cipherPad, 16)) + wholeM;
             System.out.println("Current message: " + wholeM); 
             
             data = shaveBlock(data);
