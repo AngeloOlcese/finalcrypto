@@ -481,7 +481,7 @@ public class assignment3 {
             String[] encmessage = encryptedMessage.split(" ");
             
             byte[] c2 = decoder.decode(encmessage[1]);
-            if (c2.length < 50) {
+            if (c2.length > 50) {
                 return message;
             }
         }
