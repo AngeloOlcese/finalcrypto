@@ -146,7 +146,7 @@ public class assignment3 {
         
         String wholeM = "";
         int blocks = c2.length / 16;
-        JsonObject data = messageData;
+        JsonObject data = recreateMaul(keys, messageData, serverURL, port, username, "0", c2.length - 2);
         for (int k = 0; k < blocks; k++) {    
             byte[] cipherPad = new byte[16];
             for (int i = 1; i <= 16; i ++) {
@@ -209,7 +209,6 @@ public class assignment3 {
         //Split the message into its parts and decode      
         String c1base64 = message[0];     
         byte[] c2 = decoder.decode(message[1]);
-       
         try {
             for (int j = 0; j < 2; j++) {
                 if (j == 1) {
