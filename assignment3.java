@@ -146,8 +146,8 @@ public class assignment3 {
         
         String wholeM = "";
         int blocks = c2.length / 16;
-        JsonObject data = recreateMaul(keys, messageData, serverURL, port, username, "0", c2.length - 2);
-        for (int k = 0; k < blocks; k++) {    
+        for (int k = 0; k < blocks; k++) {     
+            JsonObject data = recreateMaul(keys, messageData, serverURL, port, username, "0", c2.length - 2);   
             byte[] cipherPad = new byte[16];
             for (int i = 1; i <= 16; i ++) {
                 try {
