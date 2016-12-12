@@ -149,6 +149,11 @@ public class assignment3 {
             data = recreateMaul(keys, data, serverURL, port, username, "0", c2.length - 2);   
             byte[] cipherPad = new byte[16];
             for (int i = 1; i <= 16; i ++) {
+                if (k == blocks - 1 && i == 15) {
+                wholeM = "a:" + wholeM;
+                System.out.println("The entire message is:\n" + wholeM);
+                return;
+                }
                 try {
                     String number = "";
                     if (i == 2) {
