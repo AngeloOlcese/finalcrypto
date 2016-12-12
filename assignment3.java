@@ -160,11 +160,9 @@ public class assignment3 {
                         while (number == ""){
                             number = getAllMessages(keys, serverURL, port, "a");
                         }
-                        if (number.length() > 4) {
+                        if (number.substring(0,3) == "222") {
                             cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
-                            
-                            System.out.println(number);
-                            number = number.substring(4,number.length());
+                            number = number.substring(3,number.length());
                         }       
                         System.out.println(number);
                     } else {
@@ -238,7 +236,7 @@ public class assignment3 {
                     JsonBuilderFactory factory = Json.createBuilderFactory(null);
                     String num = String.valueOf(i);
                     if (j == 1) {
-                        num = "2222" + num;
+                        num = "222" + num;
                     }
                     JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
                     String objString = obj.toString();
