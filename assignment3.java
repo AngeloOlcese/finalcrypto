@@ -160,10 +160,12 @@ public class assignment3 {
                         while (number == ""){
                             number = getAllMessages(keys, serverURL, port, "a");
                         }
-                        if (number.substring(0,3) == "222") {
-                            cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
-                            number = number.substring(3,number.length());
-                        }       
+                        try {
+                            if (number.substring(0,3) == "222") {
+                                cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
+                                number = number.substring(3,number.length());
+                            }     
+                        } catch (Exception e){}  
                         System.out.println(number);
                     } else {
                         clearAllMessages(keys, serverURL, port, "a");
