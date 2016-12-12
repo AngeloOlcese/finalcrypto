@@ -149,10 +149,12 @@ public class assignment3 {
             data = recreateMaul(keys, data, serverURL, port, username, "0", c2.length - 2);   
             byte[] cipherPad = new byte[16];
             for (int i = 1; i <= 16; i ++) {
-                if (k == blocks - 1 && i == 10) {
-                wholeM = wholeM;
-                System.out.println("The entire message is:\n" + wholeM);
-                return;
+                if (k == (blocks - 1) && i == 10) {
+                    cipherPad = Arrays.copyOfRange(cipherPad, 6, 16); 
+                    byte[] lastBlock = Arrays.copyOfRange(c2, c2.length - 10, c2.length);
+                    wholeM = new String(XorRA(lastBlock, cipherPad, 16)) + wholeM;
+                    System.out.println("The entire message is:\n" + wholeM);
+                    System.exit(0);
                 }
                 try {
                     String number = "";
