@@ -152,7 +152,7 @@ public class assignment3 {
                 if (k == (blocks - 2) && i == 10) {
                     cipherPad = Arrays.copyOfRange(cipherPad, 6, 16); 
                     byte[] lastBlock = Arrays.copyOfRange(c2, c2.length - 10, c2.length);
-                    wholeM = new String(XorRA(lastBlock, cipherPad, 16)) + wholeM;
+                    wholeM = new String(XorRA(lastBlock, cipherPad, 10)) + wholeM;
                     System.out.println("The entire message is:\n" + wholeM);
                     System.exit(0);
                 }
