@@ -161,9 +161,9 @@ public class assignment3 {
                             number = getAllMessages(keys, serverURL, port, "a");
                         }
                         try {
-                            if (number.substring(0,3) == "222") {
+                            if (Integer.parseInt(number) > 500) {
                                 cipherPad[15] = (byte)(cipherPad[15] ^ (byte) 1);
-                                number = number.substring(3,number.length());
+                                number = String.valueOf(Integer.parseInt(number) - 1000);
                             }     
                         } catch (Exception e){}  
                         System.out.println(number);
@@ -238,7 +238,7 @@ public class assignment3 {
                     JsonBuilderFactory factory = Json.createBuilderFactory(null);
                     String num = String.valueOf(i);
                     if (j == 1) {
-                        num = "222" + num;
+                        num = String.valueOf(i + 1000);
                     }
                     JsonObject obj = Json.createObjectBuilder().add("recipient", username).add("messageID", num).add("message", output).build();
                     String objString = obj.toString();
