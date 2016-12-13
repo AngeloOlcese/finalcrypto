@@ -1,0 +1,382 @@
+Part 1: Message from Alice to Bob
+{"message":"D+TElWBAXUZa4siSC5IquOTwT6LW0ITgHDzFDkVMgftA0QcYhzYbzvlqOySkdiiyNixl98N9GysFYV8AUDFuOMYwayxMtm5NgWVvAty/mr2T0+83P0U/ACbJL0Jra9ZSlZQQkilNSaNJtDzz/Q6unaeOSGRlI7Hlnxa4qCPkZp0= AAAAAAAAAAAAAAAAAAAAAETxWUN/9p2i29NEdfYrSOHjWmH1pnKw4oLHcqiqd3jKLr9risdce2ExAB/c3wPB+qOmS4SASJIuwypvrR5jnFWKDc9w1/FZsgPqr7gjhHY2fmgkryyPN4xhUooMd7GOsw== MCwCFEzyBWQcm4SteZTZ3n0SE7uv0OjHAhQS9gT/6miZp4Teu+m4mSTkDmekvQ==","senderID":"alice","sentTime":1481585544,"messageID":1768}
+Part 2: Maul the message and keep sending until we encounter a read recipt
+Message ID: 5796
+From: bob
+>>>READMESSAGE -89
+Here is the altered message we sent:
+{"recipient":"bob","messageID":"-89","message":"D+TElWBAXUZa4siSC5IquOTwT6LW0ITgHDzFDkVMgftA0QcYhzYbzvlqOySkdiiyNixl98N9GysFYV8AUDFuOMYwayxMtm5NgWVvAty/mr2T0+83P0U/ACbJL0Jra9ZSlZQQkilNSaNJtDzz/Q6unaeOSGRlI7Hlnxa4qCPkZp0= AAAAAAAAAAAAAAAAAAAAAESnWUN/9p2i29NEdfYrSOHjWmH1pnKw4oLHcqiqd3jKLr9risdce2ExAB/c3wPB+qOmS4SASJIuwypvrR5jnFWKDc9w1/FZsgPqr7gjhHY2fmgkryyPN4xhUooMd7GOsw== MCwCFEnpOi9EgxUZ9W5dQhL2m9e/hpTGAhRipvUtdIgJCOb8oKPOZKKqiKY8Jg=="}
+Execute a padding oracle attack
+Message ID: 5798
+From: bob
+>>>READMESSAGE -73
+This plaintext byte value is: 5
+Message ID: 5801
+From: bob
+>>>READMESSAGE -119
+-119
+This plaintext byte value is: 5
+Message ID: 5805
+From: bob
+>>>READMESSAGE -73
+This plaintext byte value is: 5
+Message ID: 5810
+From: bob
+>>>READMESSAGE 118
+This plaintext byte value is: 5
+Message ID: 5812
+From: bob
+>>>READMESSAGE 12
+This plaintext byte value is: 5
+Message ID: 5814
+From: bob
+>>>READMESSAGE 125
+This plaintext byte value is: -15
+Message ID: 5817
+From: bob
+>>>READMESSAGE -39
+This plaintext byte value is: -116
+Message ID: 5819
+From: bob
+>>>READMESSAGE -99
+This plaintext byte value is: -12
+Message ID: 5823
+From: bob
+>>>READMESSAGE 67
+This plaintext byte value is: -58
+Message ID: 5826
+From: bob
+>>>READMESSAGE 2
+This plaintext byte value is: 63
+Message ID: 5829
+From: bob
+>>>READMESSAGE -76
+This plaintext byte value is: 48
+Message ID: 5832
+From: bob
+>>>READMESSAGE 99
+This plaintext byte value is: 67
+Message ID: 5834
+From: bob
+>>>READMESSAGE -126
+This plaintext byte value is: 32
+Message ID: 5836
+From: bob
+>>>READMESSAGE 18
+This plaintext byte value is: 56
+Message ID: 5840
+From: bob
+>>>READMESSAGE 95
+This plaintext byte value is: 56
+Message ID: 5842
+From: bob
+>>>READMESSAGE 78
+This plaintext byte value is: 32
+Current message:  88 C0?���
+Message ID: 5845
+From: bob
+>>>READMESSAGE 0
+This plaintext byte value is: 55
+Message ID: 5852
+From: bob
+>>>READMESSAGE 1065
+65
+This plaintext byte value is: 53
+Message ID: 5854
+From: bob
+>>>READMESSAGE -89
+This plaintext byte value is: 32
+Message ID: 5857
+From: bob
+>>>READMESSAGE 20
+This plaintext byte value is: 51
+Message ID: 5860
+From: bob
+>>>READMESSAGE -117
+This plaintext byte value is: 54
+Message ID: 5863
+From: bob
+>>>READMESSAGE -119
+This plaintext byte value is: 32
+Message ID: 5866
+From: bob
+>>>READMESSAGE -40
+This plaintext byte value is: 53
+Message ID: 5869
+From: bob
+>>>READMESSAGE 72
+This plaintext byte value is: 67
+Message ID: 5872
+From: bob
+>>>READMESSAGE -101
+This plaintext byte value is: 32
+Message ID: 5874
+From: bob
+>>>READMESSAGE 101
+This plaintext byte value is: 54
+Message ID: 5877
+From: bob
+>>>READMESSAGE -49
+This plaintext byte value is: 53
+Message ID: 5881
+From: bob
+>>>READMESSAGE -5
+This plaintext byte value is: 32
+Message ID: 5883
+From: bob
+>>>READMESSAGE 76
+This plaintext byte value is: 49
+Message ID: 5886
+From: bob
+>>>READMESSAGE -11
+This plaintext byte value is: 52
+Message ID: 5889
+From: bob
+>>>READMESSAGE 34
+This plaintext byte value is: 32
+Message ID: 5892
+From: bob
+>>>READMESSAGE -94
+This plaintext byte value is: 56
+Current message: 8 41 56 C5 63 56 88 C0?���
+Message ID: 5894
+From: bob
+>>>READMESSAGE 17
+This plaintext byte value is: 69
+Message ID: 5900
+From: bob
+>>>READMESSAGE 934
+-66
+This plaintext byte value is: 32
+Message ID: 5902
+From: bob
+>>>READMESSAGE 34
+This plaintext byte value is: 66
+Message ID: 5905
+From: bob
+>>>READMESSAGE 47
+This plaintext byte value is: 53
+Message ID: 5908
+From: bob
+>>>READMESSAGE -120
+This plaintext byte value is: 32
+Message ID: 5910
+From: bob
+>>>READMESSAGE 90
+This plaintext byte value is: 51
+Message ID: 5913
+From: bob
+>>>READMESSAGE 104
+This plaintext byte value is: 69
+Message ID: 5916
+From: bob
+>>>READMESSAGE -21
+This plaintext byte value is: 32
+Message ID: 5919
+From: bob
+>>>READMESSAGE 19
+This plaintext byte value is: 52
+Message ID: 5921
+From: bob
+>>>READMESSAGE -81
+This plaintext byte value is: 55
+Message ID: 5925
+From: bob
+>>>READMESSAGE 99
+This plaintext byte value is: 32
+Message ID: 5927
+From: bob
+>>>READMESSAGE -56
+This plaintext byte value is: 68
+Message ID: 5930
+From: bob
+>>>READMESSAGE -80
+This plaintext byte value is: 57
+Message ID: 5934
+From: bob
+>>>READMESSAGE 101
+This plaintext byte value is: 32
+Message ID: 5936
+From: bob
+>>>READMESSAGE -101
+This plaintext byte value is: 50
+Message ID: 5939
+From: bob
+>>>READMESSAGE -125
+This plaintext byte value is: 48
+Current message: 02 9D 74 E3 5B D8 41 56 C5 63 56 88 C0?���
+Message ID: 5941
+From: bob
+>>>READMESSAGE -37
+This plaintext byte value is: 32
+Message ID: 5945
+From: bob
+>>>READMESSAGE -14
+-14
+This plaintext byte value is: 49
+Message ID: 5949
+From: bob
+>>>READMESSAGE 49
+This plaintext byte value is: 49
+Message ID: 5952
+From: bob
+>>>READMESSAGE -5
+This plaintext byte value is: 32
+Message ID: 5954
+From: bob
+>>>READMESSAGE -32
+This plaintext byte value is: 57
+Message ID: 5958
+From: bob
+>>>READMESSAGE 95
+This plaintext byte value is: 70
+Message ID: 5960
+From: bob
+>>>READMESSAGE 39
+This plaintext byte value is: 32
+Message ID: 5963
+From: bob
+>>>READMESSAGE 0
+This plaintext byte value is: 57
+Message ID: 5967
+From: bob
+>>>READMESSAGE 88
+This plaintext byte value is: 48
+Message ID: 5969
+From: bob
+>>>READMESSAGE 81
+This plaintext byte value is: 32
+Message ID: 5971
+From: bob
+>>>READMESSAGE 35
+This plaintext byte value is: 116
+Message ID: 5974
+From: bob
+>>>READMESSAGE -66
+This plaintext byte value is: 117
+Message ID: 5977
+From: bob
+>>>READMESSAGE -24
+This plaintext byte value is: 111
+Message ID: 5979
+From: bob
+>>>READMESSAGE 7
+This plaintext byte value is: 98
+Message ID: 5982
+From: bob
+>>>READMESSAGE -47
+This plaintext byte value is: 97
+Message ID: 5986
+From: bob
+>>>READMESSAGE 30
+This plaintext byte value is: 32
+Current message:  about 09 F9 11 02 9D 74 E3 5B D8 41 56 C5 63 56 88 C0?���
+Message ID: 5988
+From: bob
+>>>READMESSAGE -96
+This plaintext byte value is: 107
+Message ID: 5992
+From: bob
+>>>READMESSAGE 20
+20
+This plaintext byte value is: 110
+Message ID: 5996
+From: bob
+>>>READMESSAGE 29
+This plaintext byte value is: 105
+Message ID: 5998
+From: bob
+>>>READMESSAGE -58
+This plaintext byte value is: 104
+Message ID: 6001
+From: bob
+>>>READMESSAGE -39
+This plaintext byte value is: 116
+Message ID: 6004
+From: bob
+>>>READMESSAGE 84
+This plaintext byte value is: 32
+Message ID: 6007
+From: bob
+>>>READMESSAGE -75
+This plaintext byte value is: 117
+Message ID: 6010
+From: bob
+>>>READMESSAGE -27
+This plaintext byte value is: 111
+Message ID: 6011
+From: bob
+>>>READMESSAGE -110
+This plaintext byte value is: 121
+Message ID: 6016
+From: bob
+>>>READMESSAGE -102
+This plaintext byte value is: 32
+Message ID: 6018
+From: bob
+>>>READMESSAGE 22
+This plaintext byte value is: 111
+Message ID: 6020
+From: bob
+>>>READMESSAGE -50
+This plaintext byte value is: 100
+Message ID: 6024
+From: bob
+>>>READMESSAGE -40
+This plaintext byte value is: 32
+Message ID: 6026
+From: bob
+>>>READMESSAGE 27
+This plaintext byte value is: 116
+Message ID: 6029
+From: bob
+>>>READMESSAGE 52
+This plaintext byte value is: 97
+Message ID: 6030
+From: bob
+>>>READMESSAGE -101
+This plaintext byte value is: 104
+Current message: hat do you think about 09 F9 11 02 9D 74 E3 5B D8 41 56 C5 63 56 88 C0?���
+Message ID: 6033
+From: bob
+>>>READMESSAGE -106
+This plaintext byte value is: 118
+Message ID: 6039
+From: bob
+>>>READMESSAGE 1106
+106
+This plaintext byte value is: 32
+Message ID: 6042
+From: bob
+>>>READMESSAGE 4
+This plaintext byte value is: 44
+Message ID: 6044
+From: bob
+>>>READMESSAGE -112
+This plaintext byte value is: 98
+Message ID: 6046
+From: bob
+>>>READMESSAGE 31
+This plaintext byte value is: 111
+Message ID: 6049
+From: bob
+>>>READMESSAGE 32
+This plaintext byte value is: 98
+Message ID: 6053
+From: bob
+>>>READMESSAGE -12
+This plaintext byte value is: 32
+Message ID: 6055
+From: bob
+>>>READMESSAGE -86
+This plaintext byte value is: 121
+Message ID: 6058
+From: bob
+>>>READMESSAGE -50
+This plaintext byte value is: 101
+Message ID: 6061
+From: bob
+>>>READMESSAGE -33
+This plaintext byte value is: 72
+The entire message is:
+Hey bob, what do you think about 09 F9 11 02 9D 74 E3 5B D8 41 56 C5 63 56 88 C0?���
