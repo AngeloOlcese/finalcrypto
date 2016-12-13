@@ -6,12 +6,14 @@ To compile my client you use the following line:
 javac -cp ".:javax.json-1.0.4.jar.:javax.json-api-1.0.jar" assignment3.java
 
 To run the client you can use the following command:
-java -cp ".:javax.json-1.0.4.jar:javax.json-api-1.0.jar" assignment3 
+java -cp ".:javax.json-1.0.4.jar:javax.json-api-1.0.jar" assignment3 -p 80 -s localhost -u bob
 
-then there are 4 flags that can be invoked, three of which are mandatory 
-(-s, -u, -p), and -w which has no affect on the program.
 
-The client has been tested on the jmessage.server.isi.jhu.edu server port 80.
-It can send and recieve messages with different usernames between itself
-and the reference client. All of the commands should be fully functional given
-proper input. Messages are all sent with the id number 0.
+The program takes about 15 minutes to run fully so I have run it once and exported the exact
+output to the file output.txt. I started by signing in as Bob and taking his messages before
+he go to read them. Once I had a message sent from Alice to Bob, I registered a key as the 
+user "A". I then took the message Alice sent and mauled the second byte of the ciphertext 
+and sent it to Bob. Once he gave me a read receipt, I know that I had successfully mauled the
+message such that the first two letters of plaintext were "A:". After this, I executed
+a padding oracle attack using the pkcs padding and read receipts  until I was able
+to decrypt the entire message.
